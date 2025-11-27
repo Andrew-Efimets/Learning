@@ -10,7 +10,7 @@ use App\Services\SortService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class CategoryController
+class AccountController
 {
     const PRODUCT_COUNT = 12;
 
@@ -24,16 +24,14 @@ class CategoryController
     /**
      * Display a listing of the resource.
      */
-    public function show(Request $request, string $id, SortService $sortService)
+    public function show(Request $request, SortService $sortService)
     {
-
         $user = Auth::user();
-        $categoryItem = Category::where('id', $id)->firstOrFail();
         $categories = Category::all();
-        $product = $sortService->sortProducts($request)->where('category_id', $id)->paginate(self::PRODUCT_COUNT);
+        $product = $sortService->sortProducts($request)->where('user_id', $user->id)->paginate(self::PRODUCT_COUNT);
         $productImages = ProductImage::all();
 
-        return view('pages.categories.show', compact('product', 'productImages', 'categories', 'categoryItem', 'user'));
+        return view('pages.account.show', compact('product', 'productImages', 'categories', 'user'));
 
     }
 }

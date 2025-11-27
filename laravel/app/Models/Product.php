@@ -1,29 +1,25 @@
 <?php
 
-declare (strict_types=1);
-
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
-use Illuminate\Notifications\Notifiable;
+use App\Http\Filters\QueryFilter;
+use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Model;
 
 class Product extends Model
 {
-    use HasFactory, Notifiable;
-    /**
-     * @var list<string>
-     */
     protected $fillable = [
-        'id',
         'name',
         'price',
+        'description',
+        'photo_exist',
+        'category_id',
+        'user_id',
     ];
 
-    /**
-     * @var list<string>
-     */
-    protected $hidden = [
-        'id',
-    ];
+    public function scopeFilter(Builder $builder, QueryFilter $filters): Builder
+    {
+        return $filters->apply($builder);
+
+    }
 }
