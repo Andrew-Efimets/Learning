@@ -1,4 +1,5 @@
 @extends('layouts.app')
+@section('title', 'Удаление объявления')
 
 @section('content')
     <div class="notification_wrapper">

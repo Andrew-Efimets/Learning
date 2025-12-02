@@ -65,7 +65,6 @@
       <path value="$PROJECT_DIR$/laravel/vendor/guzzlehttp/psr7" />
       <path value="$PROJECT_DIR$/laravel/vendor/guzzlehttp/promises" />
       <path value="$PROJECT_DIR$/laravel/vendor/guzzlehttp/guzzle" />
-      <path value="$PROJECT_DIR$/laravel/vendor/webmozart/assert" />
       <path value="$PROJECT_DIR$/laravel/vendor/tijsverkoyen/css-to-inline-styles" />
       <path value="$PROJECT_DIR$/laravel/vendor/nunomaduro/termwind" />
       <path value="$PROJECT_DIR$/laravel/vendor/nunomaduro/collision" />
@@ -130,6 +129,7 @@
       <path value="$PROJECT_DIR$/laravel/vendor/symfony/http-foundation" />
       <path value="$PROJECT_DIR$/laravel/vendor/symfony/finder" />
       <path value="$PROJECT_DIR$/laravel/vendor/symfony/event-dispatcher-contracts" />
+      <path value="$PROJECT_DIR$/laravel/vendor/predis/predis" />
     </include_path>
   </component>
   <component name="PhpProjectSharedConfiguration" php_language_level="8.2">

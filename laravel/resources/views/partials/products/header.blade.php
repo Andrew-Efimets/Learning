@@ -14,13 +14,19 @@
             <ul class="header_menu">
                 @auth
                     <li class="header_logo_wrapper">
-                        <img src="{{ asset('storage/images/account.png') }}" alt="аккаунт" class="header_logo">
+                        <img src="{{ asset('storage/images/account.png') }}" alt="аккаунт" class="header_account">
                     </li>
                     <li class="header_menu-item">
                         <p class="header_menu-user">{{ $user->name }}</p>
                     </li>
                     <li class="header_menu-item">
                         <a class="header_menu-link" href="{{ route('account') }}">Личный кабинет</a>
+                    </li>
+                    <li class="header_logo_wrapper">
+                        <img src="{{ asset('storage/images/cart.png') }}" alt="корзина" class="header_cart">
+                    </li>
+                    <li class="header_menu-item">
+                        <a class="header_menu-link" href="{{ route('cart.index') }}">Корзина</a>
                     </li>
                     <li class="header_menu-item">
                         <a class="header_menu-link" href="{{ route('logout') }}">Выход</a>

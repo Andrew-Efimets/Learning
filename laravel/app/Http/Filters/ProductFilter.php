@@ -41,4 +41,14 @@ class ProductFilter extends QueryFilter
         return $this->builder->where('category_id', $category_id);
 
     }
+
+    public function city_id($city_id)
+    {
+        if ($city_id === 'all') {
+            return $this->builder;
+        }
+
+        return $this->builder->where('city_id', $city_id);
+
+    }
 }

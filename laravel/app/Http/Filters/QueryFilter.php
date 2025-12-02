@@ -23,7 +23,6 @@ class QueryFilter
     public function apply(Builder $builder)
     {
         $this->builder = $builder;
-
         $filters = $this->filters();
         $filters = array_filter($filters, function ($value) {
             return $value !== null && $value !== '';
@@ -35,7 +34,8 @@ class QueryFilter
             }
         }
 
-        return $this->builder;
+        return $builder;
+
     }
 
     protected function paramToArray($param)

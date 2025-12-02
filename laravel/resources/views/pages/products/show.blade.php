@@ -11,18 +11,7 @@
         @endif
     @endauth
     <section class="content_wrapper">
-        <div class="category_wrapper">
-            <div class="category_title">
-                <p class="category_title_item">
-                    Категории
-                </p>
-            </div>
-            @foreach($categories as $category)
-                <div class="category_item_wrapper">
-                    <a class="category_item" href="{{ route('category.show', $category->id) }}">{{$category->name}}</a>
-                </div>
-            @endforeach
-        </div>
+        @include('partials.products.left-side')
         <div class="product_show_wrapper">
             <div class="product_show">
                 @if($product->photo_exist == null)
@@ -52,6 +41,9 @@
                         <p class="product_name_show">{{$product->name}}</p>
                     </div>
                     <div class="date_wrapper">
+                        <p class="date">{{ $address }}</p>
+                    </div>
+                    <div class="date_wrapper">
                         <p class="date">{{$product->created_at->translatedFormat('d F, H:i')}}</p>
                     </div>
                 </div>
@@ -59,6 +51,10 @@
             <div class="show_description">
                 <p class="product_name_show">Описание</p>
                 <p class="product_description">{{$product->description}}</p>
+            </div>
+            <div id="map" data-address="{{ json_encode($address) }}"
+                 data-marker-url="{{ asset('storage/images/map-marker.png') }}"
+                 style="width: 600px; height: 400px; margin-top: 40px">
             </div>
         </div>
     </section>
