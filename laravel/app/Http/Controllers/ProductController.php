@@ -4,12 +4,14 @@ namespace App\Http\Controllers;
 
 use App\Http\Filters\ProductFilter;
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Services\SortService;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Support\Facades\Storage;
 use function Webmozart\Assert\Tests\StaticAnalysis\resource;
@@ -28,17 +30,28 @@ class ProductController
     /**
      * Display a listing of the resource.
      */
+
     public function index(ProductFilter $filter, Request $request, SortService $sortService)
     {
         $user = Auth::user();
         $categories = Category::all();
-        $product = $sortService->sortProducts($request)->filter($filter)->paginate(self::PRODUCT_COUNT);
-        $productImages = ProductImage::all();
+        $cities = City::all();
 
+        $productImages = Cache::remember('all_product_images', now()->addMinutes(10), function () {
+            return ProductImage::all();
+        });
 
-        return view('pages.products.index', compact('product', 'productImages', 'categories', 'user'));
+        $cacheKey = 'products.' . md5(json_encode([
+                'page' => $request->get('page', 1),
+                'filter' => $request->query(),
+            ]));
+
+        $product = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($request, $sortService, $filter) {
+            return $sortService->sortProducts($request)->filter($filter)->paginate(self::PRODUCT_COUNT);
+        });
+
+        return view('pages.products.index', compact('product', 'productImages', 'categories', 'user', 'cities'));
 //        return response()->json(array_merge($product->toArray(), $productImages->toArray()));
-
     }
 
     /**
@@ -48,7 +61,8 @@ class ProductController
     {
         $user = Auth::user();
         $categories = Category::all();
-        return view('pages.products.create', compact('categories', 'user'));
+        $cities = City::all();
+        return view('pages.products.create', compact('categories', 'user', 'cities'));
     }
 
     /**
@@ -63,6 +77,7 @@ class ProductController
             'description' => 'required',
             'photo_exist' => 'null',
             'category_id' => 'required',
+            'city_id' => 'required',
             'product_image' => '',
         ]);
 
@@ -103,7 +118,10 @@ class ProductController
         $categories = Category::all();
         $product = Product::where('id', $id)->firstOrFail();
         $productImages = ProductImage::orderBy('product_id')->where('product_id', $product->id)->get();
-        return view('pages.products.show', compact('productImages', 'product', 'categories', 'user'));
+        $cities = City::all();
+        $address = City::findOrFail($product->city_id)->city;
+        return view('pages.products.show',
+            compact('productImages', 'product', 'categories', 'user' , 'address', 'cities'));
 
     }
 
@@ -115,8 +133,10 @@ class ProductController
         $user = Auth::user();
         $product = Product::where('id', $id)->firstOrFail();
         $categories = Category::all();
+        $cities = City::all();
         $productImages = ProductImage::orderBy('product_id')->where('product_id', $product->id)->get();
-        return view('pages.products.edit', compact('product', 'productImages', 'categories', 'user'));
+        return view('pages.products.edit',
+            compact('product', 'productImages', 'categories', 'user', 'cities'));
 
     }
 
@@ -130,6 +150,7 @@ class ProductController
             'price' => 'required|integer',
             'description' => 'required',
             'category_id' => 'required|max:255',
+            'city_id' => 'required',
             'product_image' => '',
         ]);
 
@@ -157,7 +178,8 @@ class ProductController
         $productImages = ProductImage::orderBy('product_id')->where('product_id', $product->id)->get();
         $categories = Category::all();
 
-        return view('pages.products.show', compact('product', 'productImages', 'categories'));
+        return view('pages.products.show',
+            compact('product', 'productImages', 'categories'));
 
     }
 

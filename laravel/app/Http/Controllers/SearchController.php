@@ -4,10 +4,12 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Services\SortService;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class SearchController
 {
@@ -22,13 +24,13 @@ class SearchController
 
     public function search(Request $request, SortService $sortService)
     {
-
+        $user = Auth::user();
         $categories = Category::all();
+        $cities = City::all();
         $product = $sortService->sortSearchProducts($request)->paginate(self::PRODUCT_COUNT);
         $productImages = ProductImage::all();
-        $productItem = $product->toArray();
-        return view('pages.products.search', compact('product', 'productImages', 'categories', 'productItem'));
-//        return response()->json(array_merge($product->toArray(), $productImages->toArray()));
+        return view('pages.products.search', compact('product', 'productImages', 'categories', 'user', 'cities'));
+//        return response()->json(array_merge($product->toArray()));
 
     }
 }

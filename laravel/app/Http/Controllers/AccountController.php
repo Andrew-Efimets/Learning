@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
 use App\Models\Category;
+use App\Models\City;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Services\SortService;
@@ -28,10 +29,11 @@ class AccountController
     {
         $user = Auth::user();
         $categories = Category::all();
+        $cities = City::all();
         $product = $sortService->sortProducts($request)->where('user_id', $user->id)->paginate(self::PRODUCT_COUNT);
         $productImages = ProductImage::all();
 
-        return view('pages.account.show', compact('product', 'productImages', 'categories', 'user'));
+        return view('pages.account.show', compact('product', 'productImages', 'categories', 'user', 'cities'));
 
     }
 }

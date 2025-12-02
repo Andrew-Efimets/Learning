@@ -7,7 +7,7 @@
     <link
         href="https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,100..900;1,100..900&family=Open+Sans:ital,wght@0,300..800;1,300..800&family=Roboto:ital,wght@0,100..900;1,100..900&display=swap"
         rel="stylesheet">
-    {{--    <link rel="stylesheet" href="{{ asset('storage/css/style.css') }}">--}}
+    <script src="https://api-maps.yandex.ru/v3/?apikey=b051c3c4-14ef-40f6-a2cd-52681dbf70a5&lang=ru_RU"></script>
     @vite(['resources/css/app.css', 'resources/js/app.js'])
 </head>
 <body>

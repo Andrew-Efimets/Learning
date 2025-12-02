@@ -50,6 +50,10 @@ RUN set -eux; \
     docker-php-ext-install gd; \
     php -r 'var_dump(gd_info());'
 
+RUN apk add --no-cache pcre-dev && \
+    pecl install redis && \
+    docker-php-ext-enable redis
+
 COPY --from=composer:latest /usr/bin/composer /usr/local/bin/composer
 
 COPY ./.env /var/www/

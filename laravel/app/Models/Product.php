@@ -15,10 +15,12 @@ class Product extends Model
         'photo_exist',
         'category_id',
         'user_id',
+        'city_id',
     ];
 
     public function scopeFilter(Builder $builder, QueryFilter $filters): Builder
     {
+
         return $filters->apply($builder);
 
     }

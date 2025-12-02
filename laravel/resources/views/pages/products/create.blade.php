@@ -13,6 +13,14 @@
                     @endforeach
                 </select>
             </div>
+            <label class="label_create" for="city_id">Город</label>
+            <div class="input_create_wrapper">
+                <select class="select_create" name="city_id" type="text" id="city_id">
+                    @foreach($cities as $city)
+                        <option value="{{$city->id}}">{{$city->city}}</option>
+                    @endforeach
+                </select>
+            </div>
             <label class="label_create" for="name">Название товара</label>
             <div class="input_create_wrapper">
                 <input class="input_create" name="name" type="text" id="name">

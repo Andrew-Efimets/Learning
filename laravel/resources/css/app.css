@@ -24,6 +24,7 @@ html, body {
 body {
     display: flex;
     flex-direction: column;
+    background-color: #f4f4f4;
 }
 
 ul, li {
@@ -43,6 +44,7 @@ ul, li {
     max-width: 1400px;
     margin: 0 auto;
     width: 100%;
+
 }
 
 .content_wrapper {
@@ -92,7 +94,6 @@ ul, li {
 
 .product {
     display: flex;
-    margin: 0 0 40px 0;
     flex-direction: column;
     max-width: 200px;
 }
@@ -518,6 +519,17 @@ ul, li {
 
 .button_wrapper_header {
     cursor: pointer;
+}
+
+.header_account {
+    width: 80%;
+    height: auto;
+    margin: auto;
+}
+
+.header_cart {
+    height: 60%;
+    margin: auto;
 }
 
 /* __________footer_________ */
