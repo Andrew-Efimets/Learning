@@ -1,35 +1,39 @@
 <?php
 
-declare (strict_types=1);
-
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\Controller;
 use App\Models\Category;
-use Illuminate\Http\JsonResponse;
+use App\Models\Product;
+use App\Models\ProductImage;
+use App\Services\SortService;
+use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 
 class CategoryController
-// {
-//     public function index(): void
-//     {
-//         Category::create([
-//             'name' => 'News',
-//         ]);
+{
+    const PRODUCT_COUNT = 12;
 
-//         $categories = Category::all();
+    protected SortService $sortService;
 
-//         echo $categories;
-//     }
-// }
+    public function __construct(SortService $sortService)
+    {
+        $this->sortService = $sortService;
+    }
 
-   {
-       public function index(): JsonResponse
-       {
-           Category::create([
-               'name' => 'News',
-           ]);
+    /**
+     * Display a listing of the resource.
+     */
+    public function show(Request $request, string $id, SortService $sortService)
+    {
 
-            $categories = Category::all();
+        $user = Auth::user();
+        $categoryItem = Category::where('id', $id)->firstOrFail();
+        $categories = Category::all();
+        $product = $sortService->sortProducts($request)->where('category_id', $id)->paginate(self::PRODUCT_COUNT);
+        $productImages = ProductImage::all();
 
-            return response()->json($categories);
-       }
-   }
+        return view('pages.categories.show', compact('product', 'productImages', 'categories', 'categoryItem', 'user'));
+
+    }
+}
