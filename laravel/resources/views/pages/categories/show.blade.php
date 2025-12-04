@@ -3,17 +3,17 @@
 
 @section('content')
     @csrf
-    <section class="sort_wrapper">
-        <form method="get" action="{{ route('category.show', $categoryItem) }}" class="sort-form" id="sort-form">
+    <section class="sort__wrapper">
+        <form method="get" action="{{ route('category.show', $categoryItem) }}" class="sort__form" id="sort-form">
             @include('partials.products.sort')
         </form>
     </section>
-    <div class="category_title">
-        <p class="category_title_item">
+    <div class="heading__container">
+        <p class="heading">
             Категория {{$categoryItem->name}}
         </p>
     </div>
-    <section class="content_wrapper">
+    <section class="content__wrapper">
         @include('partials.products.left-side')
         @include('partials.products.product-card')
     </section>

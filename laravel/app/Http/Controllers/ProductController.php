@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 use function Webmozart\Assert\Tests\StaticAnalysis\resource;
 
@@ -37,7 +38,7 @@ class ProductController
         $categories = Category::all();
         $cities = City::all();
 
-        $productImages = Cache::remember('all_product_images', now()->addMinutes(10), function () {
+        $productImages = Cache::remember('all_product_images', now()->addMinutes(5), function () {
             return ProductImage::all();
         });
 
@@ -46,7 +47,7 @@ class ProductController
                 'filter' => $request->query(),
             ]));
 
-        $product = Cache::remember($cacheKey, now()->addMinutes(10), function () use ($request, $sortService, $filter) {
+        $product = Cache::remember($cacheKey, now()->addMinutes(5), function () use ($request, $sortService, $filter) {
             return $sortService->sortProducts($request)->filter($filter)->paginate(self::PRODUCT_COUNT);
         });
 
@@ -130,8 +131,12 @@ class ProductController
      */
     public function edit(string $id)
     {
-        $user = Auth::user();
         $product = Product::where('id', $id)->firstOrFail();
+        if (Gate::denies('update-product', $product))
+        {
+            abort(403);
+        }
+        $user = Auth::user();
         $categories = Category::all();
         $cities = City::all();
         $productImages = ProductImage::orderBy('product_id')->where('product_id', $product->id)->get();
@@ -188,8 +193,12 @@ class ProductController
      */
     public function destroy(string $id)
     {
-        $user = Auth::user();
         $product = Product::where('id', $id)->firstOrFail();
+        if (Gate::denies('delete-product', $product))
+        {
+            abort(403);
+        }
+        $user = Auth::user();
         $product->delete();
         $productImages = ProductImage::where('product_id', $product->id)->get();
         foreach ($productImages as $productImage) {

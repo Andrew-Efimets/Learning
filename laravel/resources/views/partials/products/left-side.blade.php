@@ -1,12 +1,12 @@
-<div class="category_wrapper">
-    <div class="category_title">
-        <p class="category_title_item">
+<div class="left-side__wrapper">
+    <div class="heading__container">
+        <p class="heading">
             Категории
         </p>
     </div>
     @foreach($categories as $category)
-        <div class="category_item_wrapper">
-            <a class="category_item"
+        <div class="category__wrapper">
+            <a class="category"
                href="{{ route('category.show', $category->id) }}">{{$category->name}}</a>
         </div>
     @endforeach

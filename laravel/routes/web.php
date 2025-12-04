@@ -13,12 +13,12 @@ use App\Http\Controllers\ProductController;
 
 Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::get('/search', [SearchController::class, 'search'])->name('products.search');
-Route::get('/login', [LoginController::class, 'login'])->name('login');
-Route::post('/auth', [LoginController::class, 'authenticate'])->name('auth');
-Route::get('/register', [LoginController::class, 'registration'])->name('register');
-Route::post('/create_user', [LoginController::class, 'createUser'])->name('create_user');
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout');
-Route::get('/account', [AccountController::class, 'show'])->name('account');
+Route::get('/login', [LoginController::class, 'login'])->name('login')->middleware('guest');
+Route::post('/auth', [LoginController::class, 'authenticate'])->name('auth')->middleware('guest');
+Route::get('/register', [LoginController::class, 'registration'])->name('register')->middleware('guest');
+Route::post('/create_user', [LoginController::class, 'createUser'])->name('create_user')->middleware('guest');
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
+Route::get('/account', [AccountController::class, 'show'])->name('account')->middleware('auth');
 Route::get('/send_mail/{id}', [EmailSenderController::class, 'index'])->name('send_mail');
 Route::get('/email/verify', [LoginController::class, 'verify'])->middleware('auth')->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', function (EmailVerificationRequest $request) {

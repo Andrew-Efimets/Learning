@@ -1,24 +1,24 @@
 @extends('layouts.app')
-@section('title', 'Подача объявления')
+@section('title', 'Регистрация')
 
 @section('content')
-    <form method="POST" action="{{ route('create_user') }}" class="form_wrapper">
+    <form method="POST" action="{{ route('create_user') }}" class="form__container">
         @csrf
-        <div class="login_wrapper">
-            <label class="login" for="name">Имя</label>
-            <div class="login_input_wrapper">
-                <input class="login_input" name="name" type="text" id="name">
+        <div class="form__wrapper">
+            <label class="field__heading" for="name">Имя</label>
+            <div class="field__wrapper">
+                <input class="field" name="name" type="text" id="name">
             </div>
-            <label class="login" for="email">Электронная почта E-mail</label>
-            <div class="login_input_wrapper">
-                <input class="login_input" name="email" type="email" id="email">
+            <label class="field__heading" for="email">Электронная почта E-mail</label>
+            <div class="field__wrapper">
+                <input class="field" name="email" type="email" id="email">
             </div>
-            <label class="login" for="password">Пароль</label>
-            <div class="login_input_wrapper">
-                <input class="login_input" name="password" type="password" id="password">
+            <label class="field__heading" for="password">Пароль</label>
+            <div class="field__wrapper">
+                <input class="field" name="password" type="password" id="password">
             </div>
-            <div class="button_wrapper_create">
-                <button class="action_button" type="submit">Зарегистрироваться</button>
+            <div class="button__wrapper">
+                <button class="button" type="submit">Зарегистрироваться</button>
             </div>
 
             @if ($errors->any())

@@ -1,3 +1,3 @@
-    <div class="footer_container">
+    <div class="footer__container">
         Категории
     </div>
