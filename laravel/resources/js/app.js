@@ -11,11 +11,11 @@ async function initMap() {
     const mapElement = document.getElementById('map');
     const markerUrl = mapElement.dataset.markerUrl;
     const addressData = mapElement.dataset.address;
-    let address = null;
+    let city = null;
 
     if (addressData) {
         try {
-            address = JSON.parse(addressData);
+            city = JSON.parse(addressData);
         } catch (e) {
             console.error('Ошибка парсинга JSON для адреса:', e);
         }

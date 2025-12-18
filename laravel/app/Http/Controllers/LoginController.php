@@ -50,18 +50,12 @@ class LoginController
 
         $user = User::create($credentials);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+        Auth::login($user);
+        $request->session()->regenerate();
 
             event(new Registered($user));
 
             return redirect()->route('verification.notice');
-        }
-
-        return back()->withErrors([
-            'email' => 'Пользователь с таким e-mail уже существует',
-        ])->onlyInput('email');
-
     }
 
     public function logout(Request $request): RedirectResponse
@@ -75,14 +69,24 @@ class LoginController
         return redirect()->route('home');
     }
 
-    public function verify()
+    public function verify(Request $request)
     {
-        return redirect()->route('account')->with('success', 'Вы зарегистрированы');
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->route('account');
+        }
+        return view('pages.auth.verify-email');
     }
 
     public function verifyEmail(EmailVerificationRequest $request)
     {
         $request->fulfill();
-        return redirect('/account')->with('success', 'Адрес почты подтверждён');
+        return redirect()->route('account')->with('success', 'Адрес почты подтверждён!');
+    }
+
+    public function resendVerification(Request $request)
+    {
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('success', 'Письмо отправлено повторно!');
     }
 }

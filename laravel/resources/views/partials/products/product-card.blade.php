@@ -1,21 +1,15 @@
 <div class="products">
     @foreach($product as $item)
         <div class="product">
-            @foreach($productImages as $image)
-                @if($item->id == $image->product_id)
-                    <div class="product__image-wrapper">
-                        <img class="product__image-item"
-                             src="{{ asset('storage/product/' . $item->id . '/' . $image->product_image) }}"
-                             alt="Изображение">
-                    </div>
-                    @break
-                @endif
-            @endforeach
-            @if($item->id !== $image->product_id)
+            @if($item->images->isNotEmpty())
                 <div class="product__image-wrapper">
-                    <div class="no__image">
-                        Photo
-                    </div>
+                    <img class="product__image-item"
+                         src="{{ asset('storage/product/' . $item->id . '/' . $item->images->first()->product_image) }}"
+                         alt="Изображение">
+                </div>
+            @else
+                <div class="product__image-wrapper">
+                    <div class="no__image">Photo</div>
                 </div>
             @endif
             <div class="product__information">

@@ -38,12 +38,42 @@
             <div class="field__wrapper">
                 <textarea class="textarea" name="description" type="text" id="description">{{ $product->description }}</textarea>
             </div>
-            <div class="input-photo__wrapper">
-                <input class="input-photo" name="product_image[]" type="file" multiple="multiple" id="input_photo">
-                <label for="input_photo" class="input-photo__heading">
-                    Выберите фотографии
-                </label>
+
+
+            <div class="form__wrapper">
+                <label class="field__heading">Текущие фотографии</label>
+                <div class="current-photos" style="display: flex; gap: 10px; margin-bottom: 15px;">
+                    @foreach($product->images as $image)
+                        <div class="photo-item">
+                            <img alt="" src="{{ asset('storage/product/' . $product->id . '/' . $image->product_image) }}"
+                                 style="width: 100px; height: 100px; object-fit: cover; border-radius: 5px;">
+
+                            <div style="margin-top: 5px; text-align: center;">
+                                <input type="checkbox" name="delete_images[]" value="{{ $image->id }}" id="photo_{{ $image->id }}">
+                                <label for="photo_{{ $image->id }}" style="font-size: 12px; cursor: pointer;">
+                                    Удалить
+                                </label>
+                            </div>
+
+                        </div>
+                    @endforeach
+                </div>
+
+                <div class="input-photo__wrapper">
+                    <input class="input-photo" name="product_image[]" type="file" multiple="multiple" id="input_photo">
+                    <label for="input_photo" class="input-photo__heading">
+                        Добавить новые фотографии
+                    </label>
+                </div>
             </div>
+
+{{--            <div class="input-photo__wrapper">--}}
+{{--                <input class="input-photo" name="product_image[]" type="file" multiple="multiple" id="input_photo">--}}
+{{--                <label for="input_photo" class="input-photo__heading">--}}
+{{--                    Выберите фотографии--}}
+{{--                </label>--}}
+{{--            </div>--}}
+
             <div class="button__wrapper">
                 <button class="button" type="submit">Сохранить изменения</button>
             </div>

@@ -15,7 +15,7 @@
                 @else
                     <div class="slider">
                         <div class="slider__line">
-                            @foreach($productImages as $image)
+                            @foreach($product->images as $image)
                                 <img class="slider__img"
                                      src="{{ asset('storage/product/' . $product->id . '/' . $image->product_image) }}"
                                      alt="Изображение" id="{{$image->id}}">

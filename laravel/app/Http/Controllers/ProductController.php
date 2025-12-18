@@ -9,15 +9,11 @@ use App\Models\City;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Services\SortService;
-use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Cache;
-use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\Exceptions;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
-use function Webmozart\Assert\Tests\StaticAnalysis\resource;
 
 class ProductController
 {
@@ -31,16 +27,15 @@ class ProductController
     {
         $categories = Category::all();
         $cities = City::all();
-        $productImages = ProductImage::all();
         $cacheKey = 'products.' . md5(json_encode([
                 'page' => $request->get('page', 1),
                 'filter' => $request->query(),
             ]));
         $product = Cache::remember($cacheKey, now()->addSeconds(5), function () use ($request, $filter) {
-            return SortService::sortProducts($request)->filter($filter)->paginate(self::PRODUCT_COUNT);
+            return SortService::sortProducts($request)->filter($filter)->with('images')->paginate(self::PRODUCT_COUNT);
         });
 
-        return view('pages.products.index', compact('product', 'productImages', 'categories', 'cities'));
+        return view('pages.products.index', compact('product', 'categories', 'cities'));
 //        return response()->json(array_merge($product->toArray(), $productImages->toArray()));
     }
 
@@ -82,10 +77,9 @@ class ProductController
     {
         $categories = Category::all();
         $cities = City::all();
-        $productImages = ProductImage::orderBy('product_id')->where('product_id', $product->id)->get();
         $city = City::findOrFail($product->city_id)->city;
         return view('pages.products.show',
-            compact('productImages', 'product', 'categories', 'city', 'cities'));
+            compact('product', 'categories', 'city', 'cities'));
 
     }
 
@@ -110,9 +104,24 @@ class ProductController
      */
     public function update(ProductRequest $request, Product $product)
     {
+        if (!Gate::allows('delete', $product)) {
+            return redirect()->back()->with('error', 'У вас нет доступа');
+        };
         $validatedProduct = $request->validated();
+        if ($request->has('delete_images')) {
+            $imagesToDelete = ProductImage::whereIn('id', $request->delete_images)
+                ->where('product_id', $product->id)
+                ->get();
+            foreach ($imagesToDelete as $image) {
+                Storage::disk('public')->delete("product/{$product->id}/{$image->product_image}");
+                $image->delete();
+            }
+        }
         $product->update($validatedProduct);
         $this->insertImages($request, $product);
+        $photoExist = $product->images()->exists() ? 'photo' : null;
+        $product->update(['photo_exist' => $photoExist]);
+
         return redirect()->route('product_item.show', [
             'category' => $product->category_id,
             'product' => $product->id
@@ -130,10 +139,6 @@ class ProductController
             return redirect()->back()->with('error', 'У вас нет доступа');
         };
         Storage::disk('public')->deleteDirectory("product/{$product->id}");
-        $productImages = ProductImage::where('product_id', $product->id)->get();
-        foreach ($productImages as $productImage) {
-            $productImage->delete();
-        }
         $product->delete();
 
         return redirect()->route('home')->with('success', 'Объявление удалено');
@@ -142,6 +147,7 @@ class ProductController
     protected function insertImages($request, $product)
     {
         if ($request->hasFile('product_image')) {
+            $files = [];
             foreach ($request->file('product_image') as $file) {
                 $imageName = $file->getClientOriginalName();
                 $file->storeAs("product/{$product->id}", $imageName, 'public');
