@@ -27,11 +27,11 @@ class AppServiceProvider extends ServiceProvider
         Carbon::setLocale('ru');
         Paginator::defaultView('vendor.pagination.pagination-custom');
 
-        Gate::define('update-product', function (User $user, Product $product) {
-            return $user->role === 'admin' || $product->user_id == $user->id;
-        });
-        Gate::define('delete-product', function (User $user, Product $product) {
-            return $user->role === 'admin' || $product->user_id == $user->id;
-        });
+//        Gate::define('update-product', function (User $user, Product $product) {
+//            return $user->role === 'admin' || $product->user_id == $user->id;
+//        });
+//        Gate::define('delete-product', function (User $user, Product $product) {
+//            return $user->role === 'admin' || $product->user_id == $user->id;
+//        });
     }
 }

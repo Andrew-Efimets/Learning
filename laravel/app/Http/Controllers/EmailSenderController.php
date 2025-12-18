@@ -8,21 +8,21 @@ use App\Models\Product;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 
 class EmailSenderController
 {
-    public function index(string $id)
+    public static function sendMail(Product $product)
     {
-        $user = Auth::user();
-        $product = Product::findOrFail($id);
-        $data = [
-          'name' => $user->name,
-          'message' => $product->name,
-        ];
+        if (Gate::allows('sendMail', $product)) {
+            $data = [
+                'name' => auth()->user()->name,
+                'message' => $product->name,
+            ];
+            Mail::to(auth()->user()->email)->send(new ProductsMail($data));
+        }
 
-        $mailObj = new ProductsMail($data);
-        Mail::to($user->email)->send($mailObj);
-        return redirect()->route('home');
+        return true;
     }
 }

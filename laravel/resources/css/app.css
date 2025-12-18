@@ -672,3 +672,32 @@ ul, li {
     height: 400px;
     margin-top: 40px;
 }
+
+/* _______error/success_______*/
+
+.error__item {
+    font-family: "Montserrat", sans-serif;
+    background-color: #f8d7da;
+    color: #721c24;
+    padding: 10px;
+    border: 1px solid #f5c6cb;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+}
+
+.success__item {
+    font-family: "Montserrat", sans-serif;
+    background-color: #d4edda;
+    color: #155724;
+    padding: 10px; border: 1px solid #c3e6cb;
+    margin-bottom: 15px;
+    text-transform: uppercase;
+    display: flex;
+    justify-content: center;
+    font-weight: 600;
+    font-size: 18px;
+}

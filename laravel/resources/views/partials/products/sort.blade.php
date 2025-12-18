@@ -13,4 +13,3 @@
         <option value="name_desc" @if(request('sort') == 'name_desc') selected @endif>по названию Я-А</option>
     </select>
 </div>
-

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
@@ -43,7 +44,7 @@ class LoginController
     {
         $credentials = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required'],
         ]);
 
@@ -76,7 +77,12 @@ class LoginController
 
     public function verify()
     {
-        $user = Auth::user();
-        return view('pages.auth.verify', compact('user'));
+        return redirect()->route('account')->with('success', 'Вы зарегистрированы');
+    }
+
+    public function verifyEmail(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+        return redirect('/account')->with('success', 'Адрес почты подтверждён');
     }
 }

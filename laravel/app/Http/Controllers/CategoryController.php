@@ -15,28 +15,18 @@ class CategoryController
 {
     const PRODUCT_COUNT = 12;
 
-    protected SortService $sortService;
-
-    public function __construct(SortService $sortService)
-    {
-        $this->sortService = $sortService;
-    }
-
     /**
      * Display a listing of the resource.
      */
-    public function show(Request $request, string $id, SortService $sortService)
+    public function show(Request $request, Category $category)
     {
-
-        $user = Auth::user();
-        $categoryItem = Category::where('id', $id)->firstOrFail();
         $categories = Category::all();
         $cities = City::all();
-        $product = $sortService->sortProducts($request)->where('category_id', $id)->paginate(self::PRODUCT_COUNT);
+        $product = SortService::sortProducts($request)->where('category_id', $category->id)->paginate(self::PRODUCT_COUNT);
         $productImages = ProductImage::all();
 
         return view('pages.categories.show',
-            compact('product', 'productImages', 'categories', 'categoryItem', 'user', 'cities'));
+            compact('product', 'productImages', 'categories', 'cities', 'category'));
 
     }
 }

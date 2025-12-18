@@ -40,10 +40,10 @@ async function initMap() {
     map.addChild(new YMapDefaultSchemeLayer());
     map.addChild(new YMapDefaultFeaturesLayer());
 
-    if (address) {
+    if (city) {
         try {
             // Выполняем геокодирование, чтобы получить координаты по адресу
-            const searchResult = await ymaps3.search({ text: address });
+            const searchResult = await ymaps3.search({ text: city });
 
             if (searchResult.length > 0) {
                 const firstGeoObject = searchResult[0];
@@ -72,13 +72,13 @@ async function initMap() {
                 });
 
             } else {
-                console.error('Адрес не найден: ' + address);
+                console.error('Адрес не найден: ' + city);
             }
         } catch (e) {
             console.error('Ошибка при геокодировании:', e);
         }
     } else {
-        console.warn('Переменная address пуста.');
+        console.warn('Переменная city пуста.');
     }
 }
 

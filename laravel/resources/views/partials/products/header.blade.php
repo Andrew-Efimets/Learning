@@ -17,7 +17,7 @@
                         <img src="{{ asset('storage/images/account.png') }}" alt="аккаунт" class="header__account">
                     </li>
                     <li class="header__menu-item">
-                        <p class="header__menu-user">{{ $user->name }}</p>
+                        <p class="header__menu-user">{{ Auth::user()->name }}</p>
                     </li>
                     <li class="header__menu-item">
                         <a class="header__menu-link" href="{{ route('account') }}">Личный кабинет</a>

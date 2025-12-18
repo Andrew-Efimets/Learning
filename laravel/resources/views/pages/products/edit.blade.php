@@ -3,7 +3,7 @@
 
 @section('content')
 
-    <form method="POST" action="{{ route('products.update', $product->id) }}" enctype="multipart/form-data"
+    <form method="POST" action="{{ route('products.update', ['product' => $product->id]) }}" enctype="multipart/form-data"
           class="form__container">
         @csrf
         @method('PATCH')
@@ -36,7 +36,7 @@
             </div>
             <label class="field__heading" for="description">Краткое описание</label>
             <div class="field__wrapper">
-                <textarea class="textarea" name="description" type="text" id="description"></textarea>
+                <textarea class="textarea" name="description" type="text" id="description">{{ $product->description }}</textarea>
             </div>
             <div class="input-photo__wrapper">
                 <input class="input-photo" name="product_image[]" type="file" multiple="multiple" id="input_photo">
@@ -61,9 +61,9 @@
         @endif
 
     </form>
-    @can('delete-product', $product)
+    @can('delete', $product)
         <div class="form__container">
-            <form method="POST" action="{{ route('products.destroy', $product->id) }}" class="button__wrapper">
+            <form method="POST" action="{{ route('products.destroy', ['product' => $product->id]) }}" class="button__wrapper">
                 @csrf
                 @method('DELETE')
                 <button class="button" type="submit">Удалить объявление</button>

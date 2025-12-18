@@ -6,7 +6,7 @@
         @include('partials.products.left-side')
         <div class="product-show__wrapper">
             <div class="product-show">
-                @if($product->photo_exist == null)
+                @if($product->photo_exist === null)
                     <div class="image-show__wrapper">
                         <div class="no__image-show">
                             Photo
@@ -33,24 +33,24 @@
                         <p class="heading">{{$product->name}}</p>
                     </div>
                     <div class="date__wrapper">
-                        <p class="date">{{ $address }}</p>
+                        <p class="date">{{ $city }}</p>
                     </div>
                     <div class="date__wrapper">
-                        <p class="date">{{$product->created_at->translatedFormat('d F, H:i')}}</p>
+                        <p class="date">{{ $product->created_at->translatedFormat('d F, H:i') }}</p>
                     </div>
                 </div>
             </div>
             <div class="heading__container">
                 <p class="heading">Описание</p>
-                <p class="product__description">{{$product->description}}</p>
+                <p class="product__description">{{ $product->description }}</p>
             </div>
-            <div class="map" id="map" data-address="{{ json_encode($address) }}"
+            <div class="map" id="map" data-address="{{ json_encode($city) }}"
                  data-marker-url="{{ asset('storage/images/map-marker.png') }}">
             </div>
         </div>
     </section>
-    @can('update-product', $product)
-            <form method="GET" action="{{ route('products.edit', $product->id) }}" class="button__wrapper">
+    @can('update', $product)
+            <form method="GET" action="{{ route('products.edit', ['product' => $product->id]) }}" class="button__wrapper">
                 @csrf
                 <button class="button" type="submit">Редактировать объявление</button>
             </form>

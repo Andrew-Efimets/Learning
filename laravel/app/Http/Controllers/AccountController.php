@@ -15,25 +15,17 @@ class AccountController
 {
     const PRODUCT_COUNT = 12;
 
-    protected SortService $sortService;
-
-    public function __construct(SortService $sortService)
-    {
-        $this->sortService = $sortService;
-    }
-
     /**
      * Display a listing of the resource.
      */
     public function show(Request $request, SortService $sortService)
     {
-        $user = Auth::user();
         $categories = Category::all();
         $cities = City::all();
-        $product = $sortService->sortProducts($request)->where('user_id', $user->id)->paginate(self::PRODUCT_COUNT);
+        $product = SortService::sortProducts($request)->where('user_id', Auth::id())->paginate(self::PRODUCT_COUNT);
         $productImages = ProductImage::all();
 
-        return view('pages.account.show', compact('product', 'productImages', 'categories', 'user', 'cities'));
+        return view('pages.account.show', compact('product', 'productImages', 'categories', 'cities'));
 
     }
 }

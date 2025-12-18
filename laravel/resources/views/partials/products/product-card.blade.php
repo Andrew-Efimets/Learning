@@ -24,7 +24,7 @@
                 </div>
                 <div class="product__name-wrapper">
                     <a class="product__name"
-                       href="{{ route('product_item.show', ['category_id' => $item->category_id, 'id' => $item->id]) }}">
+                       href="{{ route('product_item.show', ['category' => $item->category_id, 'product' => $item->id]) }}">
                         {{ $item->name }}
                     </a>
                 </div>
