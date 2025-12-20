@@ -40,8 +40,8 @@
                    @if(request()->has('photo_exist')) checked @endif>
             Только с фотографиями
         </label>
-    </div>
-    <div class="button__wrapper">
-        <button class="button" type="submit">Применить</button>
+        <div class="button__wrapper">
+            <button class="button" type="submit">Применить</button>
+        </div>
     </div>
 </form>

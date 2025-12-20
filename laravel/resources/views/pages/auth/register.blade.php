@@ -20,7 +20,6 @@
             <div class="button__wrapper">
                 <button class="button" type="submit">Зарегистрироваться</button>
             </div>
-
             @if ($errors->any())
                 <div class="alert alert-danger">
                     <ul>

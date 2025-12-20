@@ -10,7 +10,7 @@
     </section>
     <div class="heading__container">
         <p class="heading">
-            Категория {{$category->name}}
+            Категория {{ $category->name }}
         </p>
     </div>
     <section class="content__wrapper">

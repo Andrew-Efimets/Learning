@@ -19,8 +19,8 @@
             </div>
         @endif
     </section>
-    <div class="">
-        <form method="GET" action="{{ route('home') }}" class="button__wrapper">
+    <div class="button__wrapper">
+        <form method="GET" action="{{ route('home') }}" class="button__wrapper-form">
             <button class="button" type="submit">Оплатить</button>
         </form>
     </div>

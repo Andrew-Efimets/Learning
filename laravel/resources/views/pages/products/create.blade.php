@@ -21,21 +21,34 @@
                     @endforeach
                 </select>
             </div>
+
             <label class="field__heading" for="name">Название товара</label>
+
             <div class="field__wrapper">
-                <input class="field" name="name" type="text" id="name">
+                <input class="field @error('name') field__error @enderror" name="name" type="text" id="name">
             </div>
+            @error('name')
+            <span class="field__error-message">Название товара обязательно</span>
+            @enderror
             <label class="field__heading" for="price">Цена</label>
+
             <div class="field__wrapper">
-                <input class="field" name="price" type="text" id="price">
+                <input class="field @error('price') field__error @enderror" name="price" type="text" id="price">
             </div>
+            @error('price')
+            <span class="field__error-message">Цена товара обязательна</span>
+            @enderror
             <label class="field__heading" for="description">Краткое описание</label>
             <div class="field__wrapper">
-                <textarea class="textarea" name="description" type="text" id="description"></textarea>
+                <textarea class="textarea @error('description') field__error @enderror" name="description"
+                          type="text" id="description"></textarea>
             </div>
-            <div class="input-photo__wrapper">
-            <input class="input-photo" name="product_image[]" type="file" multiple="multiple" id="input_photo">
-                <label for="input_photo" class="input-photo__heading">
+            @error('description')
+            <span class="field__error-message">Добавьте описание товара</span>
+            @enderror
+            <div class="button__wrapper">
+            <input class="button__input-photo" name="product_image[]" type="file" multiple="multiple" id="input_photo">
+                <label for="input_photo" class="button">
                     Выберите фотографии
                 </label>
             </div>
@@ -43,17 +56,5 @@
                 <button class="button" type="submit">Подать объявление</button>
             </div>
         </div>
-
-
-        @if ($errors->any())
-            <div class="alert alert-danger">
-                <ul>
-                    @foreach ($errors->all() as $error)
-                        <li>{{ $error }}</li>
-                    @endforeach
-                </ul>
-            </div>
-        @endif
-
     </form>
 @endsection

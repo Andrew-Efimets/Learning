@@ -25,18 +25,17 @@ class ProductController
 
     public function index(ProductFilter $filter, Request $request)
     {
-        $categories = Category::all();
-        $cities = City::all();
         $cacheKey = 'products.' . md5(json_encode([
                 'page' => $request->get('page', 1),
                 'filter' => $request->query(),
             ]));
         $product = Cache::remember($cacheKey, now()->addSeconds(5), function () use ($request, $filter) {
-            return SortService::sortProducts($request)->filter($filter)->with('images')->paginate(self::PRODUCT_COUNT);
+            return SortService::sortProducts($request)->filter($filter)
+                ->with('images')->paginate(self::PRODUCT_COUNT);
         });
 
-        return view('pages.products.index', compact('product', 'categories', 'cities'));
-//        return response()->json(array_merge($product->toArray(), $productImages->toArray()));
+        return view('pages.products.index', compact('product'));
+//        return response()->json(array_merge($product->toArray()));
     }
 
     /**
@@ -44,9 +43,7 @@ class ProductController
      */
     public function create()
     {
-        $categories = Category::all();
-        $cities = City::all();
-        return view('pages.products.create', compact('categories', 'cities'));
+        return view('pages.products.create');
     }
 
     /**
@@ -58,14 +55,12 @@ class ProductController
         $validatedProduct['user_id'] = Auth::id();
         $product = Product::create($validatedProduct);
         $this->insertImages($request, $product);
-
         $isSent = EmailSenderController::sendMail($product);
-
         $message = $isSent ? 'Товар создан, проверьте вашу почту!' : 'Товар создан';
 
         return redirect()->route('product_item.show', [
-            'category' => $product->category_id,
-            'product' => $product->id
+            'category' => $product->category,
+            'product' => $product
         ])->with('success', $message);
 
     }
@@ -75,12 +70,7 @@ class ProductController
      */
     public function show(Category $category, Product $product)
     {
-        $categories = Category::all();
-        $cities = City::all();
-        $city = City::findOrFail($product->city_id)->city;
-        return view('pages.products.show',
-            compact('product', 'categories', 'city', 'cities'));
-
+        return view('pages.products.show', compact('product'));
     }
 
     /**
@@ -91,11 +81,7 @@ class ProductController
         if (!Gate::allows('update', $product)) {
             return redirect()->back()->with('error', 'У вас нет доступа');
         };
-        $categories = Category::all();
-        $cities = City::all();
-        $productImages = ProductImage::orderBy('product_id')->where('product_id', $product->id)->get();
-        return view('pages.products.edit',
-            compact('product', 'productImages', 'categories', 'cities'));
+        return view('pages.products.edit', compact('product'));
 
     }
 
@@ -123,8 +109,8 @@ class ProductController
         $product->update(['photo_exist' => $photoExist]);
 
         return redirect()->route('product_item.show', [
-            'category' => $product->category_id,
-            'product' => $product->id
+            'category' => $product->category,
+            'product' => $product
         ])->with('success', 'Объявление обновлено');
 
     }

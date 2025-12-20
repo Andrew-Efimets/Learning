@@ -7,7 +7,7 @@
     @foreach($categories as $category)
         <div class="category__wrapper">
             <a class="category"
-               href="{{ route('category.show', $category->id) }}">{{$category->name}}</a>
+               href="{{ route('category.show', $category) }}">{{ $category->name }}</a>
         </div>
     @endforeach
     @include('partials.products.filter')

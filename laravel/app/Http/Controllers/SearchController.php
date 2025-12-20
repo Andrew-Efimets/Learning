@@ -17,11 +17,8 @@ class SearchController
 
     public function search(Request $request)
     {
-        $categories = Category::all();
-        $cities = City::all();
         $product = SortService::sortSearchProducts($request)->paginate(self::PRODUCT_COUNT);
-        $productImages = ProductImage::all();
-        return view('pages.products.search', compact('product', 'productImages', 'categories', 'cities'));
+        return view('pages.products.search', compact('product'));
 //        return response()->json(array_merge($product->toArray()));
 
     }

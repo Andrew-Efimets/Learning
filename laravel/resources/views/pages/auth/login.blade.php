@@ -12,28 +12,26 @@
             </div>
             <label class="field__heading" for="email">Электронная почта E-mail</label>
             <div class="field__wrapper">
-                <input class="field" name="email" type="email" id="email">
+                <input class="field @error('email') field__error @enderror"
+                       name="email" type="email" id="email" value="{{ old('email') }}">
             </div>
+            @error('email')
+            <span class="field__error-message">Почта или пароль введены неверно</span>
+            @enderror
             <label class="field__heading" for="password">Пароль</label>
             <div class="field__wrapper">
-                <input class="field" name="password" type="password" id="password">
+                <input class="field @error('password') field__error @enderror"
+                       name="password" type="password" id="password">
             </div>
+            @error('password')
+            <span class="field__error-message">Неверный пароль</span>
+            @enderror
             <div class="register__wrapper-link">
                 <a href="{{ route('register') }}" class="register__link">Регистрация</a>
             </div>
             <div class="button__wrapper">
                 <button class="button" type="submit">Войти</button>
             </div>
-
-            @if ($errors->any())
-                <div class="alert alert-danger">
-                    <ul>
-                        @foreach ($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
-                </div>
-            @endif
         </div>
     </form>
 @endsection

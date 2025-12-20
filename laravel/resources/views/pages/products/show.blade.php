@@ -33,7 +33,7 @@
                         <p class="heading">{{$product->name}}</p>
                     </div>
                     <div class="date__wrapper">
-                        <p class="date">{{ $city }}</p>
+                        <p class="date">{{ $product->city?->city }}</p>
                     </div>
                     <div class="date__wrapper">
                         <p class="date">{{ $product->created_at->translatedFormat('d F, H:i') }}</p>
@@ -44,13 +44,13 @@
                 <p class="heading">Описание</p>
                 <p class="product__description">{{ $product->description }}</p>
             </div>
-            <div class="map" id="map" data-address="{{ json_encode($city) }}"
+            <div class="map" id="map" data-address="{{ json_encode($product->city?->city) }}"
                  data-marker-url="{{ asset('storage/images/map-marker.png') }}">
             </div>
         </div>
     </section>
     @can('update', $product)
-            <form method="GET" action="{{ route('products.edit', ['product' => $product->id]) }}" class="button__wrapper">
+            <form method="GET" action="{{ route('products.edit', $product) }}" class="button__wrapper">
                 @csrf
                 <button class="button" type="submit">Редактировать объявление</button>
             </form>

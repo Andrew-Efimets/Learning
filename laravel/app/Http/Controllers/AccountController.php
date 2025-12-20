@@ -20,12 +20,8 @@ class AccountController
      */
     public function show(Request $request, SortService $sortService)
     {
-        $categories = Category::all();
-        $cities = City::all();
         $product = SortService::sortProducts($request)->where('user_id', Auth::id())->paginate(self::PRODUCT_COUNT);
-        $productImages = ProductImage::all();
 
-        return view('pages.account.show', compact('product', 'productImages', 'categories', 'cities'));
-
+        return view('pages.account.show', compact('product'));
     }
 }

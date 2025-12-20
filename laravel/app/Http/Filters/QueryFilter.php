@@ -27,15 +27,12 @@ class QueryFilter
         $filters = array_filter($filters, function ($value) {
             return $value !== null && $value !== '';
         });
-
         foreach ($filters as $name => $value) {
             if (method_exists($this, $name)) {
                 call_user_func_array([$this, $name], array_filter([$value]));
             }
         }
-
         return $builder;
-
     }
 
     protected function paramToArray($param)
