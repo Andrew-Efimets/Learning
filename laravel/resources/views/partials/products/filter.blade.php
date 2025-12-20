@@ -1,10 +1,10 @@
-<form method="get" action="{{ route('products.index') }}" class="filter_wrapper">
+<form method="get" action="{{ route('home') }}" class="filter__wrapper">
     <div class="filter">
-        <div class="filter_title_wrapper">
-            <p class="filter_title">Фильтр</p>
+        <div class="heading__container">
+            <p class="heading">Фильтр</p>
         </div>
-        <label for="select_category" class="category_label">Категории</label>
-        <select class="filter_category" id="select_category" name="category_id">
+        <label for="select_category" class="sort__heading">Категории</label>
+        <select class="sort__field" id="select_category" name="category_id">
             <option value="all" @if(request()->query('category_id') == 'all') selected @endif>
                 Все категории
             </option>
@@ -16,8 +16,8 @@
                 </option>
             @endforeach
         </select>
-        <label for="select_city" class="category_label">Город</label>
-        <select class="filter_category" id="select_city" name="city_id">
+        <label for="select_city" class="sort__heading">Город</label>
+        <select class="sort__field" id="select_city" name="city_id">
             <option value="all" @if(request()->query('city_id') == 'all') selected @endif>
                 Любой
             </option>
@@ -29,19 +29,19 @@
                 </option>
             @endforeach
         </select>
-        <label class="price_from_wrapper" for="price_from">Цена от:</label>
-        <input class="filter_category" type="text" name="price_from" id="price_from" value="{{ request('price_from') }}"
+        <label class="sort__heading" for="price_from">Цена от:</label>
+        <input class="sort__field" type="text" name="price_from" id="price_from" value="{{ request('price_from') }}"
                min="0">
-        <label class="price_to_wrapper" for="price_to">Цена до:</label>
-        <input class="filter_category" type="text" name="price_to" id="price_to" value="{{ request('price_to') }}"
+        <label class="sort__heading" for="price_to">Цена до:</label>
+        <input class="sort__field" type="text" name="price_to" id="price_to" value="{{ request('price_to') }}"
                min="0">
-        <label class="check_photo_wrapper">
+        <label class="check-photo__wrapper">
             <input class="checkbox" type="checkbox" name="photo_exist" value="1"
                    @if(request()->has('photo_exist')) checked @endif>
             Только с фотографиями
         </label>
-    </div>
-    <div class="button_wrapper_create">
-        <button class="action_button" type="submit">Применить</button>
+        <div class="button__wrapper">
+            <button class="button" type="submit">Применить</button>
+        </div>
     </div>
 </form>

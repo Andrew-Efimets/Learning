@@ -24,6 +24,30 @@
             text-transform: uppercase;
         }
 
+        .button__wrapper {
+            width: 100%;
+            padding: 20px 0;
+            border: none;
+            line-height: 22px;
+            display: flex;
+            justify-content: center;
+            column-gap: 20px;
+            margin: 0 auto;
+        }
+
+        .button {
+            all: unset;
+            background: darkgreen;
+            color: #FFFFFF;
+            padding: 10px 40px;
+            border-radius: 10px;
+            font-size: 16px;
+            font-weight: 500;
+            cursor: pointer;
+            display: flex;
+            justify-content: center;
+        }
+
         .notification__wrapper {
             display: flex;
             flex-direction: column;
@@ -79,17 +103,22 @@
         <div class="header__container">
             <h1 class="header__name-item">Ваши вещи</h1>
         </div>
-        <div class="mail__content">
-            <h2 class="heading"> Здравствуйте, {{ $data['name'] }}!</h2>
-            <br>
+        <div class="mail__contant">
+            <h2 class="heading">Добро пожаловать, {{ $user->name }}!</h2>
             <div class="notification__wrapper">
-                <p class="notification">
-                    Вас приветствует сайт объявлений "Ваши вещи"!
-                </p>
-                <p class="notification">
-                    Ваше объявление {{ $data['message'] }} успешно опубликовано!
+                <p class="notification">Чтобы начать пользоваться всеми функциями сайта "Ваши вещи",
+                    подтвердите вашу почту:
                 </p>
             </div>
+            <div class="button__wrapper">
+                <a href="{{ $url }}" class="button">
+                    Активировать аккаунт
+                </a>
+            </div>
+
+            <p class="notification">
+                Ссылка действительна в течение 60 минут.
+            </p>
         </div>
         <div class="footer">
             <p class="footer__container">Все права защищены</p>

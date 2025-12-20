@@ -15,21 +15,10 @@ class SearchController
 {
     const PRODUCT_COUNT = 12;
 
-    protected SortService $sortService;
-
-    public function __construct(SortService $sortService)
+    public function search(Request $request)
     {
-        $this->sortService = $sortService;
-    }
-
-    public function search(Request $request, SortService $sortService)
-    {
-        $user = Auth::user();
-        $categories = Category::all();
-        $cities = City::all();
-        $product = $sortService->sortSearchProducts($request)->paginate(self::PRODUCT_COUNT);
-        $productImages = ProductImage::all();
-        return view('pages.products.search', compact('product', 'productImages', 'categories', 'user', 'cities'));
+        $product = SortService::sortSearchProducts($request)->paginate(self::PRODUCT_COUNT);
+        return view('pages.products.search', compact('product'));
 //        return response()->json(array_merge($product->toArray()));
 
     }

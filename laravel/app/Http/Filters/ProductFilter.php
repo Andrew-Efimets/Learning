@@ -12,7 +12,6 @@ class ProductFilter extends QueryFilter
 
             return $this->builder->where('price', '>=', $price_from);
         }
-
         return $this->builder;
     }
 
@@ -22,7 +21,6 @@ class ProductFilter extends QueryFilter
 
             return $this->builder->where('price', '<=', $price_to);
         }
-
         return $this->builder;
     }
 
@@ -37,9 +35,7 @@ class ProductFilter extends QueryFilter
         if ($category_id === 'all') {
             return $this->builder;
         }
-
         return $this->builder->where('category_id', $category_id);
-
     }
 
     public function city_id($city_id)
@@ -47,8 +43,6 @@ class ProductFilter extends QueryFilter
         if ($city_id === 'all') {
             return $this->builder;
         }
-
         return $this->builder->where('city_id', $city_id);
-
     }
 }

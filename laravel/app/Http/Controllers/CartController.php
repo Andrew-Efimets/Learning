@@ -13,10 +13,7 @@ class CartController
 {
     public function index()
     {
-        $user = Auth::user();
-        $categories = Category::all();
-        $cities = City::all();
         $product = collect();
-        return view('pages.account.cart', compact('user', 'product', 'categories', 'cities'));
+        return view('pages.account.cart', compact('product'));
     }
 }

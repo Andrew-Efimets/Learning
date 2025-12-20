@@ -1,56 +1,56 @@
-<div class="header_container">
-    <div class="header_container_up">
-        <div class="header_logo_wrapper">
-            <a href="{{ route('products.index') }}">
-                <img src="{{ asset('storage/images/10.jpg') }}" alt="Логотип компании" class="header_logo">
+<div class="header__container">
+    <div class="header__container-up">
+        <div class="header__logo-wrapper">
+            <a href="{{ route('home') }}">
+                <img src="{{ asset('storage/images/10.jpg') }}" alt="Логотип компании" class="header__logo">
             </a>
         </div>
-        <div class="header_name">
-            <a href="{{ route('products.index') }}" class="header_name_item">
+        <div class="header__name">
+            <a href="{{ route('home') }}" class="header__name-item">
                 ваши вещи
             </a>
         </div>
-        <nav class="header_nav">
-            <ul class="header_menu">
+        <nav class="header__nav">
+            <ul class="header__menu">
                 @auth
-                    <li class="header_logo_wrapper">
-                        <img src="{{ asset('storage/images/account.png') }}" alt="аккаунт" class="header_account">
+                    <li class="header__logo-wrapper">
+                        <img src="{{ asset('storage/images/account.png') }}" alt="аккаунт" class="header__account">
                     </li>
-                    <li class="header_menu-item">
-                        <p class="header_menu-user">{{ $user->name }}</p>
+                    <li class="header__menu-item">
+                        <p class="header__menu-user">{{ Auth::user()->name }}</p>
                     </li>
-                    <li class="header_menu-item">
-                        <a class="header_menu-link" href="{{ route('account') }}">Личный кабинет</a>
+                    <li class="header__menu-item">
+                        <a class="header__menu-link" href="{{ route('account') }}">Личный кабинет</a>
                     </li>
-                    <li class="header_logo_wrapper">
-                        <img src="{{ asset('storage/images/cart.png') }}" alt="корзина" class="header_cart">
+                    <li class="header__logo-wrapper">
+                        <img src="{{ asset('storage/images/cart.png') }}" alt="корзина" class="header__cart">
                     </li>
-                    <li class="header_menu-item">
-                        <a class="header_menu-link" href="{{ route('cart.index') }}">Корзина</a>
+                    <li class="header__menu-item">
+                        <a class="header__menu-link" href="{{ route('cart.index') }}">Корзина</a>
                     </li>
-                    <li class="header_menu-item">
-                        <a class="header_menu-link" href="{{ route('logout') }}">Выход</a>
+                    <li class="header__menu-item">
+                        <a class="header__menu-link" href="{{ route('logout') }}">Выход</a>
                     </li>
                 @else
-                    <li class="header_menu-item">
-                        <a class="header_menu-link" href="{{ route('login') }}">Вход</a>
+                    <li class="header__menu-item">
+                        <a class="header__menu-link" href="{{ route('login') }}">Вход</a>
                     </li>
-                    <li class="header_menu-item">
-                        <a class="header_menu-link" href="{{ route('register') }}">Регистрация</a>
+                    <li class="header__menu-item">
+                        <a class="header__menu-link" href="{{ route('register') }}">Регистрация</a>
                     </li>
                 @endauth
             </ul>
         </nav>
     </div>
 </div>
-<section class="search_create">
-    <form method="GET" action="{{ route('products.search') }}" class="search_wrapper">
-        <input type="text" name="search" class="search_field" placeholder="Поиск">
-        <button type="submit" class="search_button_wrapper">
-            <img src="{{ asset('storage/images/search.png') }}" alt="Кнопка" class="search_button">
+<section class="search__container">
+    <form method="GET" action="{{ route('products.search') }}" class="search__wrapper">
+        <input type="text" name="search" class="search__field" placeholder="Поиск">
+        <button type="submit" class="search__button-wrapper">
+            <img src="{{ asset('storage/images/search.png') }}" alt="Кнопка" class="search__button">
         </button>
     </form>
-    <form method="GET" action="{{ route('products.create') }}" class="button_wrapper_header">
-        <button class="action_button" type="submit">Подать объявление</button>
+    <form method="GET" action="{{ route('products.create') }}" class="button__wrapper">
+        <button class="button" type="submit">Подать объявление</button>
     </form>
 </section>

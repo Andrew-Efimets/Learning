@@ -11,8 +11,12 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->string('city_id')->nullable()->after('password');
+        Schema::table('products', function (Blueprint $table) {
+            $table->string('slug')->nullable()->change();
+        });
+
+        Schema::table('categories', function (Blueprint $table) {
+            $table->string('slug')->nullable()->change();
         });
     }
 
@@ -21,8 +25,8 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::table('users', function (Blueprint $table) {
-            $table->dropColumn('city_id');
+        Schema::table('categories', function (Blueprint $table) {
+            //
         });
     }
 };

@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use App\Models\User;
 use Illuminate\Auth\Events\Registered;
+use Illuminate\Foundation\Auth\EmailVerificationRequest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Http\RedirectResponse;
@@ -43,24 +44,18 @@ class LoginController
     {
         $credentials = $request->validate([
             'name' => ['required', 'string', 'max:255'],
-            'email' => ['required', 'email'],
+            'email' => ['required', 'email', 'unique:users,email'],
             'password' => ['required'],
         ]);
 
         $user = User::create($credentials);
 
-        if (Auth::attempt($credentials)) {
-            $request->session()->regenerate();
+        Auth::login($user);
+        $request->session()->regenerate();
 
             event(new Registered($user));
 
             return redirect()->route('verification.notice');
-        }
-
-        return back()->withErrors([
-            'email' => 'Пользователь с таким e-mail уже существует',
-        ])->onlyInput('email');
-
     }
 
     public function logout(Request $request): RedirectResponse
@@ -74,9 +69,24 @@ class LoginController
         return redirect()->route('home');
     }
 
-    public function verify()
+    public function verify(Request $request)
     {
-        $user = Auth::user();
-        return view('pages.auth.verify', compact('user'));
+        if ($request->user()->hasVerifiedEmail()) {
+            return redirect()->route('account');
+        }
+        return view('pages.auth.verify-email');
+    }
+
+    public function verifyEmail(EmailVerificationRequest $request)
+    {
+        $request->fulfill();
+        return redirect()->route('account')->with('success', 'Адрес почты подтверждён!');
+    }
+
+    public function resendVerification(Request $request)
+    {
+        $request->user()->sendEmailVerificationNotification();
+
+        return back()->with('success', 'Письмо отправлено повторно!');
     }
 }

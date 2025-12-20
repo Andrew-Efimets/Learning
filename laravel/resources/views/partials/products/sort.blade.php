@@ -2,8 +2,8 @@
     <input type="hidden" name="{{ $key }}" value="{{ $value }}">
 @endforeach
 <div class="sort">
-    <label for="sort" class="sort_label">Сортировать:</label>
-    <select class="sort_items" id="sort" name="sort" onchange="this.form.submit();">
+    <label for="sort" class="sort__heading">Сортировать:</label>
+    <select class="sort__field" id="sort" name="sort" onchange="this.form.submit();">
         <option value="created_at_desc" @if(request('sort') == 'created_at_desc') selected @endif >сначала новые
         </option>
         <option value="created_at_asc" @if(request('sort') == 'created_at_asc') selected @endif>сначала старые</option>
@@ -13,4 +13,3 @@
         <option value="name_desc" @if(request('sort') == 'name_desc') selected @endif>по названию Я-А</option>
     </select>
 </div>
-

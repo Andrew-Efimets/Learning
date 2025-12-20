@@ -1,46 +1,47 @@
-<div class="products">
-    @foreach($product as $item)
-        <div class="product">
-            @foreach($productImages as $image)
-                @if($item->id == $image->product_id)
-                    <div class="product_image_wrapper">
-                        <img class="product_image_item"
-                             src="{{ asset('storage/product/' . $item->id . '/' . $image->product_image) }}"
+@if($product->isNotEmpty())
+    <div class="products">
+        @foreach($product as $item)
+            <div class="product">
+                @if($item->images->isNotEmpty())
+                    <div class="product__image-wrapper">
+                        <img class="product__image-item"
+                             src="{{ asset('storage/product/' . $item->id . '/' . $item->images->first()->product_image) }}"
                              alt="Изображение">
                     </div>
-                    @break
+                @else
+                    <div class="product__image-wrapper">
+                        <div class="no__image">Photo</div>
+                    </div>
                 @endif
-            @endforeach
-            @if($item->id !== $image->product_id)
-                <div class="product_image_wrapper">
-                    <div class="no_image">
-                        Photo
+                <div class="product__information">
+                    <div class="product__price-wrapper">
+                        <p class="product__price">{{ $item->price }} р.</p>
+                    </div>
+                    <div class="product__name-wrapper">
+                        <a class="product__name"
+                           href="{{ route('product_item.show', [$item->category, $item]) }}">
+                            {{ $item->name }}
+                        </a>
+                    </div>
+                    <div class="date__wrapper city__wrapper">
+                        <p class="date city">
+                            {{ $item->city?->city }}
+                        </p>
+                    </div>
+                    <div class="date__wrapper city__wrapper">
+                        <p class="date city">{{ $item->created_at->translatedFormat('d F, H:i') }}</p>
                     </div>
                 </div>
-            @endif
-            <div class="product_information">
-                <div class="product_price_wrapper">
-                    <p class="product_price">{{$item->price}} р.</p>
-                </div>
-                <div class="product_name_wrapper">
-                    <a class="product_name"
-                       href="{{route('product_item.show', ['category_id' => $item->category_id, 'id' => $item->id])}}">
-                        {{$item->name}}
-                    </a>
-                </div>
-                <div class="date_wrapper">
-                    @foreach($cities as $city)
-                        @if($item->city_id == $city->id)
-                            <p class="date">
-                                {{ $city->city }}
-                            </p>
-                        @endif
-                    @endforeach
-                </div>
-                <div class="date_wrapper">
-                    <p class="date">{{$item->created_at->translatedFormat('d F, H:i')}}</p>
-                </div>
             </div>
+        @endforeach
+    </div>
+@else
+    <div class="nodata__container">
+        <div class="nodata__wrapper">
+            <img src="{{ asset('storage/images/nodata.png') }}" alt="Нет данных" class="nodata__img">
         </div>
-    @endforeach
-</div>
+        <p class="nodata__item">
+            Ничего не найдено
+        </p>
+    </div>
+@endif

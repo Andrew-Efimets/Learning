@@ -15,6 +15,18 @@
     @include('partials.products.header')
 </header>
 
+@if(session('error'))
+    <div class="error__item">
+        {{ session('error') }}
+    </div>
+@endif
+
+@if(session('success'))
+    <div class="success__item">
+        {{ session('success') }}
+    </div>
+@endif
+
 <div class="content">
     @yield('content')
 </div>

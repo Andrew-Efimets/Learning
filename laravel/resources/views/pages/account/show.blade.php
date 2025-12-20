@@ -3,22 +3,22 @@
 
 @section('content')
     @csrf
-    <section class="sort_wrapper">
-        <form method="get" action="{{ route('account', $user->id) }}" class="sort-form" id="sort-form">
+    <section class="sort__wrapper">
+        <form method="get" action="{{ route('account') }}" class="sort__form" id="sort-form">
             @include('partials.products.sort')
         </form>
     </section>
-    <div class="category_title">
-        <p class="category_title_item">
+    <div class="heading__container">
+        <p class="heading">
             Ваши объявления
         </p>
     </div>
-    <section class="content_wrapper">
+    <section class="content__wrapper">
         @include('partials.products.left-side')
         @if ($product->isNotEmpty())
             @include('partials.products.product-card')
         @else
-            <div class="notification_wrapper">
+            <div class="notification__wrapper">
                 <p class="notification">
                     У вас пока нет объявлений.
                 </p>

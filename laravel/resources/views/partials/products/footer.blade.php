@@ -1,3 +1,3 @@
-    <div class="footer_container">
-        Категории
-    </div>
+<p class="footer__container">
+    Все права защищены
+</p>
