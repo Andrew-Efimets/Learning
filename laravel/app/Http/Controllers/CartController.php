@@ -11,7 +11,7 @@ use Illuminate\Support\Facades\Auth;
 
 class CartController
 {
-    public function index()
+    public function index(Product $product)
     {
         $product = collect();
         return view('pages.account.cart', compact('product'));

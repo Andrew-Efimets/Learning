@@ -19,15 +19,21 @@
                     <li class="header__menu-item">
                         <p class="header__menu-user">{{ Auth::user()->name }}</p>
                     </li>
-                    <li class="header__menu-item">
-                        <a class="header__menu-link" href="{{ route('account') }}">Личный кабинет</a>
-                    </li>
-                    <li class="header__logo-wrapper">
-                        <img src="{{ asset('storage/images/cart.png') }}" alt="корзина" class="header__cart">
-                    </li>
-                    <li class="header__menu-item">
-                        <a class="header__menu-link" href="{{ route('cart.index') }}">Корзина</a>
-                    </li>
+                    @if(Auth::user()->role === 'admin')
+                        <li class="header__menu-item">
+                            <a class="header__menu-link" href="{{ route('account.admin') }}">Панель администратора</a>
+                        </li>
+                    @else
+                        <li class="header__menu-item">
+                            <a class="header__menu-link" href="{{ route('account') }}">Личный кабинет</a>
+                        </li>
+{{--                        <li class="header__logo-wrapper">--}}
+{{--                            <img src="{{ asset('storage/images/cart.png') }}" alt="корзина" class="header__cart">--}}
+{{--                        </li>--}}
+{{--                        <li class="header__menu-item">--}}
+{{--                            <a class="header__menu-link" href="{{ route('cart.index') }}">Корзина</a>--}}
+{{--                        </li>--}}
+                    @endif
                     <li class="header__menu-item">
                         <a class="header__menu-link" href="{{ route('logout') }}">Выход</a>
                     </li>

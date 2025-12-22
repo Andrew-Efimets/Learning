@@ -19,6 +19,7 @@ Route::post('/create_user', [LoginController::class, 'createUser'])->name('creat
     ->middleware('guest');
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
 Route::get('/account', [AccountController::class, 'show'])->name('account')->middleware(['auth', 'verified']);
+Route::get('/admin', [AccountController::class, 'adminPanel'])->name('account.admin')->middleware(['auth', 'verified']);
 Route::get('/email/verify', [LoginController::class, 'verify'])
     ->middleware('auth')->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verifyEmail'])

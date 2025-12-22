@@ -29,7 +29,7 @@ class ProductController
                 'page' => $request->get('page', 1),
                 'filter' => $request->query(),
             ]));
-        $product = Cache::remember($cacheKey, now()->addSeconds(5), function () use ($request, $filter) {
+        $product = Cache::remember($cacheKey, now()->addMinutes(60), function () use ($request, $filter) {
             return SortService::sortProducts($request)->filter($filter)
                 ->with('images')->paginate(self::PRODUCT_COUNT);
         });
