@@ -6,20 +6,38 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SearchController;
 use Illuminate\Support\Facades\Route;
-//use App\Http\Controllers\UserController;
 use App\Http\Controllers\ProductController;
+
 
 Route::get('/', [ProductController::class, 'index'])->name('home');
 Route::get('/search', [SearchController::class, 'search'])->name('products.search');
-Route::get('/login', [LoginController::class, 'login'])->name('login')->middleware('guest');
-Route::post('/auth', [LoginController::class, 'authenticate'])->name('auth')->middleware('guest');
+
+
+Route::get('/login', [LoginController::class, 'login'])->name('login')
+    ->middleware('guest');
+Route::post('/auth', [LoginController::class, 'authenticate'])->name('auth')
+    ->middleware('guest');
 Route::get('/register', [LoginController::class, 'registration'])->name('register')
     ->middleware('guest');
 Route::post('/create_user', [LoginController::class, 'createUser'])->name('create_user')
     ->middleware('guest');
-Route::get('/logout', [LoginController::class, 'logout'])->name('logout')->middleware('auth');
-Route::get('/account', [AccountController::class, 'show'])->name('account')->middleware(['auth', 'verified']);
-Route::get('/admin', [AccountController::class, 'adminPanel'])->name('account.admin')->middleware(['auth', 'verified']);
+Route::get('/forgot_password', function () {
+    return view('pages.auth.forgot-password');
+})->middleware('guest')->name('password.request');
+Route::post('/forgot_password', [LoginController::class, 'forgotPassword'])
+    ->middleware(['guest', 'throttle:3,1'])->name('password.email');
+Route::get('/reset-password/{token}', function (string $token) {
+    return view('pages.auth.reset-password', ['token' => $token]);
+})->middleware('guest')->name('password.reset');
+Route::post('/reset-password', [LoginController::class, 'updatePassword'])
+    ->middleware('guest')->name('password.update');
+
+Route::get('/logout', [LoginController::class, 'logout'])->name('logout')
+    ->middleware('auth');
+Route::get('/account', [AccountController::class, 'show'])->name('account')
+    ->middleware(['auth', 'verified']);
+Route::get('/admin', [AccountController::class, 'adminPanel'])->name('account.admin')
+    ->middleware(['auth', 'verified']);
 Route::get('/email/verify', [LoginController::class, 'verify'])
     ->middleware('auth')->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verifyEmail'])
@@ -27,7 +45,8 @@ Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verifyEmail'])
 Route::post('/email/verification-notification', [LoginController::class, 'resendVerification'])
     ->middleware(['auth', 'throttle:1,1'])
     ->name('verification.send');
-Route::get('/cart', [CartController::class, 'index'])->name('cart.index')->middleware(['auth', 'verified']);
+Route::get('/cart', [CartController::class, 'index'])->name('cart.index')
+    ->middleware(['auth', 'verified']);
 
 
 Route::prefix('/products')->group(function () {

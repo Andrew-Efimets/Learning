@@ -85,6 +85,7 @@ ul, li {
 
 .field:focus {
     border: darkgreen 2px solid;
+    background-color: #eefaf3;
     outline: none;
 }
 
@@ -189,6 +190,12 @@ ul, li {
 
 /* _________login___________*/
 
+.register__wrapper-link {
+    margin: 20px 0;
+    display: flex;
+    justify-content: space-between;
+}
+
 .register__link {
     text-decoration: none;
     font-size: 16px;
@@ -264,6 +271,10 @@ ul, li {
     padding-top: 20px;
 }
 
+.check-photo__wrapper {
+    cursor: pointer;
+}
+
 /* ____________search_____________ */
 
 .search__container {
@@ -300,7 +311,10 @@ ul, li {
 
 .search__field:-webkit-autofill,
 .search__field:-webkit-autofill:hover,
-.search__field:-webkit-autofill:focus {
+.search__field:-webkit-autofill:focus,
+.field:-webkit-autofill,
+.field:-webkit-autofill:hover,
+.field:-webkit-autofill:focus{
     -webkit-box-shadow: 0 0 0 1000px #eefaf3 inset !important;
 }
 

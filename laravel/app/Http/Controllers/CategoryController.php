@@ -20,7 +20,8 @@ class CategoryController
      */
     public function show(Request $request, Category $category)
     {
-        $product = SortService::sortProducts($request)->where('category_id', $category->id)->paginate(self::PRODUCT_COUNT);
+        $product = SortService::sortProducts($request)
+            ->where('category_id', $category->id)->paginate(self::PRODUCT_COUNT);
 
         return view('pages.categories.show', compact('product','category'));
     }

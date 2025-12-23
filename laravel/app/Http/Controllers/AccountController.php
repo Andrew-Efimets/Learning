@@ -21,7 +21,8 @@ class AccountController
      */
     public function show(Request $request, SortService $sortService)
     {
-        $product = SortService::sortProducts($request)->where('user_id', Auth::id())->paginate(self::PRODUCT_COUNT);
+        $product = SortService::sortProducts($request)
+            ->where('user_id', Auth::id())->paginate(self::PRODUCT_COUNT);
 
         return view('pages.account.show', compact('product'));
     }
