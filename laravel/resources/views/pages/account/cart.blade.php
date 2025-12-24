@@ -2,7 +2,6 @@
 @section('title', 'Корзина')
 
 @section('content')
-    @csrf
     <div class="heading__container">
         <p class="heading">
             Корзина
@@ -20,7 +19,8 @@
         @endif
     </section>
     <div class="button__wrapper">
-        <form method="GET" action="{{ route('home') }}" class="button__wrapper-form">
+        <form method="POST" action="{{ route('home') }}" class="button__wrapper-form">
+            @csrf
             <button class="button" type="submit">Оплатить</button>
         </form>
     </div>

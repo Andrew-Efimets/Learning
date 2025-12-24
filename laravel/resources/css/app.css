@@ -385,15 +385,13 @@ ul, li {
 }
 
 .header__logo-wrapper {
-    display: flex;
+    display: block;
     padding: 2px;
     max-width: 60px;
-    margin-right: 18px;
 }
 
 .header__logo {
     width: 100%;
-    height: auto;
 }
 
 .header__container {

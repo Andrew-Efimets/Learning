@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Product;
 use Illuminate\Http\Request;
-use Illuminate\Database\Eloquent\Builder;
 
 class SortService
 {

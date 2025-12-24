@@ -2,7 +2,6 @@
 @section('title', 'Ваши вещи')
 
 @section('content')
-    @csrf
     <section class="sort__wrapper">
         <form method="get" action="{{ route('home') }}" class="sort__form" id="sort-form">
         @include('partials.products.sort')

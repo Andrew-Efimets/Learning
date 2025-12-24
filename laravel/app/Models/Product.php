@@ -55,12 +55,12 @@ class Product extends Model
     protected static function booted()
     {
         static::creating(function ($product) {
-            $product->slug = Str::slug($product->name) . '-' . uniqid();
+            $product->slug = Str::slug($product->name) . '-' . $product->id;
         });
 
         static::updating(function ($product) {
             if ($product->isDirty('name')) {
-                $product->slug = Str::slug($product->name) . '-' . uniqid();
+                $product->slug = Str::slug($product->name) . '-' . $product->id;
             }
         });
     }

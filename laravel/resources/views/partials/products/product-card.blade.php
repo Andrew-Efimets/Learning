@@ -5,7 +5,9 @@
                 @if($item->images->isNotEmpty())
                     <div class="product__image-wrapper">
                         <img class="product__image-item"
-                             src="{{ asset('storage/product/' . $item->id . '/' . $item->images->first()->product_image) }}"
+                             src="{{ asset('storage/product/'
+                                . $item->created_at->format('Y/m')
+                                . '/' . $item->id . '/' . $item->images->first()->product_image) }}"
                              alt="Изображение">
                     </div>
                 @else

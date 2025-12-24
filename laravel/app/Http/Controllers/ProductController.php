@@ -53,9 +53,11 @@ class ProductController
         $validatedProduct = $request->validated();
         $validatedProduct['user_id'] = Auth::id();
         $product = Product::create($validatedProduct);
+        $product->refresh();
         $this->insertImages($request, $product);
         $isSent = EmailSenderController::sendMail($product);
         $message = $isSent ? 'Товар создан, проверьте вашу почту!' : 'Товар создан';
+        Cache::flush();
 
         return redirect()->route('product_item.show', [
             'category' => $product->category,
@@ -89,7 +91,7 @@ class ProductController
      */
     public function update(ProductRequest $request, Product $product)
     {
-        if (!Gate::allows('delete', $product)) {
+        if (!Gate::allows('update', $product)) {
             return redirect()->back()->with('error', 'У вас нет доступа');
         };
         $validatedProduct = $request->validated();
@@ -97,8 +99,11 @@ class ProductController
             $imagesToDelete = ProductImage::whereIn('id', $request->delete_images)
                 ->where('product_id', $product->id)
                 ->get();
+
             foreach ($imagesToDelete as $image) {
-                Storage::disk('public')->delete("product/{$product->id}/{$image->product_image}");
+                $directory = "product/" . $product->created_at->format('Y/m') . "/{$product->id}/{$image->product_image}";
+                Storage::disk('public')
+                    ->delete($directory);
                 $image->delete();
             }
         }
@@ -106,6 +111,7 @@ class ProductController
         $this->insertImages($request, $product);
         $photoExist = $product->images()->exists() ? 'photo' : null;
         $product->update(['photo_exist' => $photoExist]);
+        Cache::flush();
 
         return redirect()->route('product_item.show', [
             'category' => $product->category,
@@ -123,8 +129,12 @@ class ProductController
         if (!Gate::allows('delete', $product)) {
             return redirect()->back()->with('error', 'У вас нет доступа');
         };
-        Storage::disk('public')->deleteDirectory("product/{$product->id}");
+        $directory = "product/" . $product->created_at->format('Y/m') . "/{$product->id}";
+        if (Storage::disk('public')->exists($directory)) {
+            Storage::disk('public')->deleteDirectory($directory);
+        }
         $product->delete();
+        Cache::flush();
 
         return redirect()->route('home')->with('success', 'Объявление удалено');
     }
@@ -135,7 +145,8 @@ class ProductController
             $files = [];
             foreach ($request->file('product_image') as $file) {
                 $imageName = $file->getClientOriginalName();
-                $file->storeAs("product/{$product->id}", $imageName, 'public');
+                $directory = "product/" . $product->created_at->format('Y/m') . "/{$product->id}";
+                $file->storeAs($directory, $imageName, 'public');
                 $files[] = [
                     'product_image' => $imageName,
                     'product_id' => $product->id,

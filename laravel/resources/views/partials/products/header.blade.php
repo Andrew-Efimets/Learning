@@ -1,7 +1,7 @@
 <div class="header__container">
     <div class="header__container-up">
         <div class="header__logo-wrapper">
-            <a href="{{ route('home') }}">
+            <a href="{{ route('home') }}" class="header__logo-link">
                 <img src="{{ asset('storage/images/10.jpg') }}" alt="Логотип компании" class="header__logo">
             </a>
         </div>

@@ -17,7 +17,9 @@
                         <div class="slider__line">
                             @foreach($product->images as $image)
                                 <img class="slider__img"
-                                     src="{{ asset('storage/product/' . $product->id . '/' . $image->product_image) }}"
+                                     src="{{ asset('storage/product/'
+                                        . $product->created_at->format('Y/m')
+                                        . '/' . $product->id . '/' . $image->product_image) }}"
                                      alt="Изображение" id="{{$image->id}}">
                             @endforeach
                         </div>
@@ -61,7 +63,6 @@
     </section>
     @can('update', $product)
             <form method="GET" action="{{ route('products.edit', $product) }}" class="button__wrapper">
-                @csrf
                 <button class="button" type="submit">Редактировать объявление</button>
             </form>
     @endcan

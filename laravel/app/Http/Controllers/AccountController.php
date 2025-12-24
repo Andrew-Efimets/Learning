@@ -3,10 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\City;
 use App\Models\Product;
-use App\Models\ProductImage;
 use App\Models\User;
 use App\Services\SortService;
 use Illuminate\Http\Request;

@@ -42,7 +42,7 @@ Route::get('/user', [UserController::class, 'index'])->name('personal.data')
 Route::post('/user/update', [UserController::class, 'updateUser'])->name('personal.data.update')
     ->middleware(['auth', 'verified']);
 Route::get('/admin', [AccountController::class, 'adminPanel'])->name('account.admin')
-    ->middleware(['auth', 'verified']);
+    ->middleware(['auth', 'verified', 'can:admin-panel']);
 Route::get('/email/verify', [LoginController::class, 'verify'])
     ->middleware('auth')->name('verification.notice');
 Route::get('/email/verify/{id}/{hash}', [LoginController::class, 'verifyEmail'])

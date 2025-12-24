@@ -1,7 +1,6 @@
 @extends('layouts.app')
 
 @section('content')
-
     <div class="notification__wrapper">
         <p class="notification">
             Для создания объявлений и доступа к полному функционалу, пожалуйста, подтвердите адрес вашей почты.
