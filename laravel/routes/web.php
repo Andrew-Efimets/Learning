@@ -5,6 +5,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
 
@@ -35,6 +36,10 @@ Route::post('/reset-password', [LoginController::class, 'updatePassword'])
 Route::get('/logout', [LoginController::class, 'logout'])->name('logout')
     ->middleware('auth');
 Route::get('/account', [AccountController::class, 'show'])->name('account')
+    ->middleware(['auth', 'verified']);
+Route::get('/user', [UserController::class, 'index'])->name('personal.data')
+    ->middleware(['auth', 'verified']);
+Route::post('/user/update', [UserController::class, 'updateUser'])->name('personal.data.update')
     ->middleware(['auth', 'verified']);
 Route::get('/admin', [AccountController::class, 'adminPanel'])->name('account.admin')
     ->middleware(['auth', 'verified']);

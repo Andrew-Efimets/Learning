@@ -46,6 +46,14 @@ ul, li {
     text-transform: uppercase;
 }
 
+.heading__h4 {
+    color: #0a0a0a;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+}
+
+
 .content__wrapper {
     display: flex;
     width: 100%;
@@ -416,6 +424,7 @@ ul, li {
 }
 
 .header__menu-user {
+    text-decoration: none;
     font-weight: 600;
     font-size: 14px;
     line-height: 16px;

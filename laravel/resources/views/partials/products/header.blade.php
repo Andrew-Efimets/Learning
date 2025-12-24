@@ -14,10 +14,12 @@
             <ul class="header__menu">
                 @auth
                     <li class="header__logo-wrapper">
+                        <a href="{{ route('personal.data') }}">
                         <img src="{{ asset('storage/images/account.png') }}" alt="аккаунт" class="header__account">
+                        </a>
                     </li>
                     <li class="header__menu-item">
-                        <p class="header__menu-user">{{ Auth::user()->name }}</p>
+                        <a href="{{ route('personal.data') }}" class="header__menu-user">{{ Auth::user()->name }}</a>
                     </li>
                     @if(Auth::user()->role === 'admin')
                         <li class="header__menu-item">

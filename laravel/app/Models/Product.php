@@ -42,6 +42,11 @@ class Product extends Model
         return $this->belongsTo(City::class);
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';

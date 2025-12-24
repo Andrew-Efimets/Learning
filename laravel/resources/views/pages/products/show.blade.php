@@ -27,10 +27,10 @@
                 @endif
                 <div class="product-show__information">
                     <div class="product__price-wrapper">
-                        <p class="product__price">{{$product->price}} р.</p>
+                        <p class="product__price">{{ $product->price }} р.</p>
                     </div>
                     <div class="heading__container">
-                        <p class="heading">{{$product->name}}</p>
+                        <p class="heading">{{ $product->name }}</p>
                     </div>
                     <div class="date__wrapper">
                         <p class="date">{{ $product->city?->city }}</p>
@@ -38,6 +38,16 @@
                     <div class="date__wrapper">
                         <p class="date">{{ $product->created_at->translatedFormat('d F, H:i') }}</p>
                     </div>
+                    @auth
+                    <div class="heading__container">
+                        <p class="heading__h4">Продавец</p>
+                        <p class="text">{{ $product->user->name }}</p>
+                    </div>
+                    <div class="heading__container">
+                        <p class="heading__h4">Номер телефона для связи</p>
+                        <p class="text">{{ $product->user->phone }}</p>
+                    </div>
+                    @endauth
                 </div>
             </div>
             <div class="heading__container">

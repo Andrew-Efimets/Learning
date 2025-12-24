@@ -7,6 +7,7 @@ use App\Notifications\CustomVerifyEmail;
 use Illuminate\Contracts\Auth\CanResetPassword;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 
@@ -22,6 +23,7 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
     protected $fillable = [
         'name',
         'email',
+        'phone',
         'password',
         'city_id',
     ];
@@ -45,6 +47,11 @@ class User extends Authenticatable implements MustVerifyEmail, CanResetPassword
         'email_verified_at' => 'datetime',
         'password' => 'hashed',
     ];
+
+    public function products(): HasMany
+    {
+        return $this->hasMany(Product::class);
+    }
 
     public function sendEmailVerificationNotification()
     {
