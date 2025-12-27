@@ -25,6 +25,7 @@ services:
     volumes:
       - ../laravel:/var/www/html
       - ./laravel.ini:/usr/local/etc/php/conf.d/laravel.ini
+      - ./cacert.pem:/usr/local/etc/php/conf.d/cacert.pem
     networks:
       - laravel-network
   database:
