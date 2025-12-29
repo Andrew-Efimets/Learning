@@ -34,6 +34,9 @@
                         <p class="date city">{{ $item->created_at->translatedFormat('d F, H:i') }}</p>
                     </div>
                 </div>
+                <button class="product__button add-to-cart" data-id="{{ $item->id }}">
+                    Оплатить на сайте
+                </button>
             </div>
         @endforeach
     </div>

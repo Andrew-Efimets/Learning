@@ -29,12 +29,12 @@
                         <li class="header__menu-item">
                             <a class="header__menu-link" href="{{ route('account') }}">Личный кабинет</a>
                         </li>
-{{--                        <li class="header__logo-wrapper">--}}
-{{--                            <img src="{{ asset('storage/images/cart.png') }}" alt="корзина" class="header__cart">--}}
-{{--                        </li>--}}
-{{--                        <li class="header__menu-item">--}}
-{{--                            <a class="header__menu-link" href="{{ route('cart.index') }}">Корзина</a>--}}
-{{--                        </li>--}}
+                        <li class="header__logo-wrapper">
+                            <img src="{{ asset('storage/images/cart.png') }}" alt="корзина" class="header__cart">
+                        </li>
+                        <li class="header__menu-item">
+                            <a class="header__menu-link" href="{{ route('cart.index') }}">Корзина</a>
+                        </li>
                     @endif
                     <li class="header__menu-item">
                         <a class="header__menu-link" href="{{ route('logout') }}">Выход</a>

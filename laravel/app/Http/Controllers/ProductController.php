@@ -14,7 +14,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
-class ProductController
+class ProductController extends Controller
 {
     const PRODUCT_COUNT = 12;
 

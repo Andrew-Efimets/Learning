@@ -2,11 +2,10 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Services\SortService;
 use Illuminate\Http\Request;
 
-class SearchController
+class SearchController extends Controller
 {
     const PRODUCT_COUNT = 12;
 

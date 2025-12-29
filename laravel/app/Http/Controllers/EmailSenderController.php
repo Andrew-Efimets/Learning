@@ -2,12 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Mail\ProductsMail;
 use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
 
-class EmailSenderController
+class EmailSenderController extends Controller
 {
     public static function sendMail(Product $product)
     {

@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\City;
-use App\Models\Product;
-use App\Models\ProductImage;
 use App\Services\SortService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class CategoryController
+class CategoryController extends Controller
 {
     const PRODUCT_COUNT = 12;
 

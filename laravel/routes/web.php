@@ -5,6 +5,7 @@ use App\Http\Controllers\CartController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\LoginController;
 use App\Http\Controllers\SearchController;
+use App\Http\Controllers\StripeController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProductController;
@@ -52,6 +53,8 @@ Route::post('/email/verification-notification', [LoginController::class, 'resend
     ->name('verification.send');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index')
     ->middleware(['auth', 'verified']);
+Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
+//    ->middleware(['auth', 'verified']);
 
 
 Route::prefix('/products')->group(function () {
@@ -70,3 +73,8 @@ Route::prefix('/products')->group(function () {
     Route::get('/category/{category}/product/{product}', [ProductController::class, 'show'])
         ->name('product_item.show');
 });
+
+Route::get('/payment', [StripeController::class, 'index'])->name('payment')
+    ->middleware(['auth', 'verified']);
+Route::post('/payment', [StripeController::class, 'stripePost'])->name('credit-card')
+    ->middleware(['auth', 'verified']);

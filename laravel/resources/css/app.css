@@ -215,6 +215,7 @@ ul, li {
 /* __________footer_________ */
 
 .footer {
+    margin-top: auto;
     font-family: "Montserrat", sans-serif;
     background-color: darkgreen;
     padding: 15px 0;
@@ -385,7 +386,8 @@ ul, li {
 }
 
 .header__logo-wrapper {
-    display: block;
+    display: flex;
+    align-items: center;
     padding: 2px;
     max-width: 60px;
 }
@@ -470,7 +472,7 @@ ul, li {
 }
 
 .header__cart {
-    height: 60%;
+    height: 45%;
     margin: auto;
 }
 
@@ -489,6 +491,7 @@ ul, li {
 
 .product {
     display: flex;
+    height: 100%;
     flex-direction: column;
     max-width: 200px;
 }
@@ -530,6 +533,10 @@ ul, li {
     background-image: radial-gradient(#d3d2cf, #FFFFFF);
 }
 
+.product__information {
+    padding-bottom: 10px;
+}
+
 .product__price-wrapper {
     line-height: 28px;
     font-size: 24px;
@@ -560,6 +567,20 @@ ul, li {
 
 .product__name:hover {
     color: #ffffff;
+}
+
+.product__button {
+    all: unset;
+    background: darkgreen;
+    color: #FFFFFF;
+    padding: 10px 20px;
+    border-radius: 10px;
+    font-size: 14px;
+    font-weight: 500;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    margin-top: auto;
 }
 
 .date {
@@ -797,4 +818,39 @@ ul, li {
     background-color: #cce8d5;
     border-radius: 10px;
     padding: 10px;
+}
+
+.payment__container {
+    padding: 0 20px;
+}
+
+/* ___________cart_____________ */
+
+.cart__wrapper {
+    display: flex;
+    flex-direction: column;
+    padding: 0 20px;
+    width: 100%;
+    column-gap: 40px;
+    background-color: #cce8d5;
+}
+
+.product-cart__wrapper {
+    display: flex;
+    align-items: center;
+    column-gap: 40px;
+    padding: 10px;
+    margin: 10px;
+    background-color: #fff5f5;
+}
+
+.product-cart {
+    display: flex;
+    align-items: center;
+    column-gap: 40px;
+}
+
+.image-cart {
+    width: 50px;
+    height: 50px;
 }
