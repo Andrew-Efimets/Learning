@@ -56,16 +56,16 @@
                             Оплаченные покупки
                         </p>
                         <span class="arrow">▼</span>
-                        <div class="cart-orders__wrapper" id="orders-content" style="display: none;">
-                            @foreach($orders as $order)
-                                <div class="order__wrapper">
-                                    <div class="notification">Номер заказа: №{{ $order->order_number }}</div>
-                                    <div class="notification">Дата
-                                        оплаты: {{ $order->created_at->translatedFormat('d F, H:i') }}</div>
-                                    <div class="notification">Оплачено: {{ $order->total_price }} р.</div>
-                                </div>
-                            @endforeach
-                        </div>
+                    </div>
+                    <div class="cart-orders__wrapper" id="orders-content" style="display: none;">
+                        @foreach($orders as $order)
+                            <div class="order__wrapper">
+                                <div class="notification">Номер заказа: №{{ $order->order_number }}</div>
+                                <div class="notification">Дата
+                                    оплаты: {{ $order->created_at->translatedFormat('d F, H:i') }}</div>
+                                <div class="notification">Оплачено: {{ $order->total_price }} р.</div>
+                            </div>
+                        @endforeach
                     </div>
                 </div>
             </div>

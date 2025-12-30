@@ -834,7 +834,8 @@ ul, li {
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px;
+    column-gap: 40px;
+    padding: 10px;
     margin: 10px;
     background-color: #fff5f5;
     border-radius: 10px;
@@ -869,10 +870,14 @@ ul, li {
 .orders__heading {
     display: flex;
     align-items: center;
-    margin: 10px;
+    margin: 20px;
     background-color: #effdf4;
     border-radius: 10px;
     cursor: pointer;
+}
+
+.cart-orders__header {
+    padding: 20px 0;
 }
 
 .orders__heading-text {
@@ -881,8 +886,6 @@ ul, li {
 }
 
 .cart-orders__wrapper {
-    display: flex;
-    flex-direction: column;
     margin: 20px;
     background-color: #d6eadd;
     border-radius: 10px;
