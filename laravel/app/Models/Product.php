@@ -42,6 +42,11 @@ class Product extends Model
         return $this->belongsTo(City::class);
     }
 
+    public function user(): BelongsTo
+    {
+        return $this->belongsTo(User::class);
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';
@@ -50,12 +55,12 @@ class Product extends Model
     protected static function booted()
     {
         static::creating(function ($product) {
-            $product->slug = Str::slug($product->name) . '-' . uniqid();
+            $product->slug = Str::slug($product->name) . '-' . Str::random(5);
         });
 
         static::updating(function ($product) {
             if ($product->isDirty('name')) {
-                $product->slug = Str::slug($product->name) . '-' . uniqid();
+                $product->slug = Str::slug($product->name) . '-' . Str::random(5);
             }
         });
     }

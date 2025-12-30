@@ -19,6 +19,8 @@ RUN set -eux; \
     apt-get update; \
     apt-get upgrade -y; \
     apt-get install -y --no-install-recommends \
+            ca-certificates \
+            git \
             curl \
             libmemcached-dev \
             libz-dev \
@@ -50,7 +52,7 @@ RUN set -eux; \
     docker-php-ext-install gd; \
     php -r 'var_dump(gd_info());'
 
-RUN apk add --no-cache pcre-dev && \
+RUN apt-get update && apt-get install -y libpcre2-dev && \
     pecl install redis && \
     docker-php-ext-enable redis
 
@@ -61,6 +63,21 @@ COPY ./.gitignore /var/www/
 COPY ./start.sh /var/www/
 
 #RUN chown $UID:$UID /var/www/html/storage
+
+RUN update-ca-certificates
+
+COPY ./cacert.pem /usr/local/etc/php/cacert.pem
+
+RUN echo 'curl.cainfo="/usr/local/etc/php/cacert.pem"' >> /usr/local/etc/php/conf.d/docker-php-ext-ssl.ini && \
+    echo 'openssl.cafile="/usr/local/etc/php/cacert.pem"' >> /usr/local/etc/php/conf.d/docker-php-ext-ssl.ini
+
+RUN mkdir -p /var/www/.composer && chown -R $USER:$USER /var/www/.composer
+
+RUN mkdir -p /var/www/.composer && \
+    touch /var/www/.gitconfig && \
+    chown -R $USER:$USER /var/www
+
+RUN git config --global --add safe.directory /var/www/html
 
 USER $USER
 

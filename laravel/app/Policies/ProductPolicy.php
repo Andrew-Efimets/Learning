@@ -2,7 +2,6 @@
 
 namespace App\Policies;
 
-use Illuminate\Auth\Access\Response;
 use App\Models\Product;
 use App\Models\User;
 
@@ -64,8 +63,4 @@ class ProductPolicy
         return false;
     }
 
-    public function sendMail(User $user, Product $product): bool
-    {
-        return $user->role === 'admin' || $product->user_id == $user->id;
-    }
 }

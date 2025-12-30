@@ -5,7 +5,9 @@
                 @if($item->images->isNotEmpty())
                     <div class="product__image-wrapper">
                         <img class="product__image-item"
-                             src="{{ asset('storage/product/' . $item->id . '/' . $item->images->first()->product_image) }}"
+                             src="{{ asset('storage/product/'
+                                . $item->created_at->format('Y/m')
+                                . '/' . $item->id . '/' . $item->images->first()->product_image) }}"
                              alt="Изображение">
                     </div>
                 @else
@@ -32,6 +34,20 @@
                         <p class="date city">{{ $item->created_at->translatedFormat('d F, H:i') }}</p>
                     </div>
                 </div>
+                @if($item->user_id !== auth()->id())
+                    <button
+                        class="product__button {{ $item->is_in_cart ? 'in-cart' : 'add-to-cart' }}"
+                        data-id="{{ $item->id }}"
+                        {{ $item->is_in_cart ? 'disabled' : '' }}
+                        style="{{ $item->is_in_cart ? 'background-color: #5b6559;' : '' }}"
+                    >
+                        {{ $item->is_in_cart ? 'В корзине ✓' : 'Оплатить на сайте' }}
+                    </button>
+                @else
+                        <button class="product__button" disabled style="background-color: #5b6559">
+                            Ваше объявление
+                        </button>
+                @endif
             </div>
         @endforeach
     </div>

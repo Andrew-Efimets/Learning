@@ -21,9 +21,7 @@
                     @endforeach
                 </select>
             </div>
-
             <label class="field__heading" for="name">Название товара</label>
-
             <div class="field__wrapper">
                 <input class="field @error('name') field__error @enderror" name="name" type="text" id="name">
             </div>
@@ -31,7 +29,6 @@
             <span class="field__error-message">Название товара обязательно</span>
             @enderror
             <label class="field__heading" for="price">Цена</label>
-
             <div class="field__wrapper">
                 <input class="field @error('price') field__error @enderror" name="price" type="text" id="price">
             </div>

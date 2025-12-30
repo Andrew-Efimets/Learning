@@ -1,7 +1,7 @@
 <div class="header__container">
     <div class="header__container-up">
         <div class="header__logo-wrapper">
-            <a href="{{ route('home') }}">
+            <a href="{{ route('home') }}" class="header__logo-link">
                 <img src="{{ asset('storage/images/10.jpg') }}" alt="Логотип компании" class="header__logo">
             </a>
         </div>
@@ -14,20 +14,28 @@
             <ul class="header__menu">
                 @auth
                     <li class="header__logo-wrapper">
+                        <a href="{{ route('personal.data') }}">
                         <img src="{{ asset('storage/images/account.png') }}" alt="аккаунт" class="header__account">
+                        </a>
                     </li>
                     <li class="header__menu-item">
-                        <p class="header__menu-user">{{ Auth::user()->name }}</p>
+                        <a href="{{ route('personal.data') }}" class="header__menu-user">{{ Auth::user()->name }}</a>
                     </li>
-                    <li class="header__menu-item">
-                        <a class="header__menu-link" href="{{ route('account') }}">Личный кабинет</a>
-                    </li>
-                    <li class="header__logo-wrapper">
-                        <img src="{{ asset('storage/images/cart.png') }}" alt="корзина" class="header__cart">
-                    </li>
-                    <li class="header__menu-item">
-                        <a class="header__menu-link" href="{{ route('cart.index') }}">Корзина</a>
-                    </li>
+                    @if(Auth::user()->role === 'admin')
+                        <li class="header__menu-item">
+                            <a class="header__menu-link" href="{{ route('account.admin') }}">Панель администратора</a>
+                        </li>
+                    @else
+                        <li class="header__menu-item">
+                            <a class="header__menu-link" href="{{ route('account') }}">Личный кабинет</a>
+                        </li>
+                        <li class="header__logo-wrapper">
+                            <img src="{{ asset('storage/images/cart.png') }}" alt="корзина" class="header__cart">
+                        </li>
+                        <li class="header__menu-item">
+                            <a class="header__menu-link" href="{{ route('cart.index') }}">Корзина</a>
+                        </li>
+                    @endif
                     <li class="header__menu-item">
                         <a class="header__menu-link" href="{{ route('logout') }}">Выход</a>
                     </li>

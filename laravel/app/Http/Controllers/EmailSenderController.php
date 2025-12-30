@@ -2,26 +2,19 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Mail\ProductsMail;
 use App\Models\Product;
-use App\Models\User;
-use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Mail;
 
-class EmailSenderController
+class EmailSenderController extends Controller
 {
     public static function sendMail(Product $product)
     {
-        if (Gate::allows('sendMail', $product)) {
-            $data = [
-                'name' => auth()->user()->name,
-                'message' => $product->name,
-            ];
-            Mail::to(auth()->user()->email)->send(new ProductsMail($data));
-        }
+        $data = [
+            'name' => $product->user->name,
+            'message' => $product->name,
+        ];
+        Mail::to($product->user->email)->send(new ProductsMail($data));
 
         return true;
     }

@@ -58,7 +58,9 @@
                 @foreach($product->images as $image)
                     <div class="field__current-photo">
                         <img class="field__photo-item" alt=""
-                             src="{{ asset('storage/product/' . $product->id . '/' . $image->product_image) }}">
+                             src="{{ asset('storage/product/'
+                                . $product->created_at->format('Y/m')
+                                . '/' . $product->id . '/' . $image->product_image) }}">
                         <div class="checkbox__wrapper">
                             <input type="checkbox" name="delete_images[]" value="{{ $image->id }}"
                                    id="photo_{{ $image->id }}">

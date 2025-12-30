@@ -2,16 +2,11 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
 use App\Models\Category;
-use App\Models\City;
-use App\Models\Product;
-use App\Models\ProductImage;
 use App\Services\SortService;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
-class CategoryController
+class CategoryController extends Controller
 {
     const PRODUCT_COUNT = 12;
 
@@ -20,8 +15,16 @@ class CategoryController
      */
     public function show(Request $request, Category $category)
     {
-        $product = SortService::sortProducts($request)->where('category_id', $category->id)->paginate(self::PRODUCT_COUNT);
+        $product = SortService::sortProducts($request)
+            ->where('category_id', $category->id)->paginate(self::PRODUCT_COUNT);
 
-        return view('pages.categories.show', compact('product','category'));
+        $cartIds = array_keys(session()->get('cart', []));
+
+        $product->through(function ($item) use ($cartIds) {
+            $item->is_in_cart = in_array($item->id, $cartIds);
+            return $item;
+        });
+
+        return view('pages.categories.show', compact('product','category', 'cartIds'));
     }
 }

@@ -104,20 +104,24 @@
             <h1 class="header__name-item">Ваши вещи</h1>
         </div>
         <div class="mail__content">
-            <h2 class="heading">Добро пожаловать, {{ $user->name }}!</h2>
+            <h2 class="heading">Здравствуйте, {{ $user->name }}!</h2>
             <div class="notification__wrapper">
-                <p class="notification">Чтобы начать пользоваться всеми функциями сайта "Ваши вещи",
-                    подтвердите вашу почту:
+                <p class="notification">
+                    Это письмо отправлено для сброса пароля на сайте "Ваши вещи".
+                    Перейдите по ссылке ниже, чтобы изменить пароль.
                 </p>
             </div>
             <div class="button__wrapper">
                 <a href="{{ $url }}" class="button">
-                    Активировать аккаунт
+                    Ссылка
                 </a>
             </div>
 
             <p class="notification">
                 Ссылка действительна в течение 60 минут.
+            </p>
+            <p class="notification">
+                Если вы не запрашивали сброс пароля, просто проигнорируйте это письмо.
             </p>
         </div>
         <div class="footer">

@@ -4,19 +4,21 @@ namespace App\Notifications;
 
 use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
-use Illuminate\Auth\Notifications\VerifyEmail;
 use Illuminate\Notifications\Messages\MailMessage;
+use Illuminate\Notifications\Notification;
 
-class CustomVerifyEmail extends VerifyEmail
+class CustomResetPasswordNotification extends Notification
 {
     use Queueable;
+
+    public $token;
 
     /**
      * Create a new notification instance.
      */
-    public function __construct()
+    public function __construct($token)
     {
-        //
+        $this->token = $token;
     }
 
     /**
@@ -24,7 +26,7 @@ class CustomVerifyEmail extends VerifyEmail
      *
      * @return array<int, string>
      */
-    public function via(mixed $notifiable): array
+    public function via(object $notifiable): array
     {
         return ['mail'];
     }
@@ -32,13 +34,19 @@ class CustomVerifyEmail extends VerifyEmail
     /**
      * Get the mail representation of the notification.
      */
-    public function toMail(mixed $notifiable): MailMessage
+    public function toMail(object $notifiable): MailMessage
     {
-        $verificationUrl = $this->verificationUrl($notifiable);
+        $url = url(route('password.reset', [
+            'token' => $this->token,
+            'email' => $notifiable->getEmailForPasswordReset(),
+        ], false));
 
         return (new MailMessage)
-            ->subject('Активация аккаунта')
-            ->view('mail.verify', ['url' => $verificationUrl, 'user' => $notifiable]);
+            ->subject('Восстановление доступа к аккаунту')
+            ->view('mail.password-reset', [
+                'url' => $url,
+                'user' => $notifiable
+            ]);
     }
 
     /**

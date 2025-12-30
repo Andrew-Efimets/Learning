@@ -17,7 +17,9 @@
                         <div class="slider__line">
                             @foreach($product->images as $image)
                                 <img class="slider__img"
-                                     src="{{ asset('storage/product/' . $product->id . '/' . $image->product_image) }}"
+                                     src="{{ asset('storage/product/'
+                                        . $product->created_at->format('Y/m')
+                                        . '/' . $product->id . '/' . $image->product_image) }}"
                                      alt="Изображение" id="{{$image->id}}">
                             @endforeach
                         </div>
@@ -27,10 +29,10 @@
                 @endif
                 <div class="product-show__information">
                     <div class="product__price-wrapper">
-                        <p class="product__price">{{$product->price}} р.</p>
+                        <p class="product__price">{{ $product->price }} р.</p>
                     </div>
                     <div class="heading__container">
-                        <p class="heading">{{$product->name}}</p>
+                        <p class="heading">{{ $product->name }}</p>
                     </div>
                     <div class="date__wrapper">
                         <p class="date">{{ $product->city?->city }}</p>
@@ -38,6 +40,16 @@
                     <div class="date__wrapper">
                         <p class="date">{{ $product->created_at->translatedFormat('d F, H:i') }}</p>
                     </div>
+                    @auth
+                    <div class="heading__container">
+                        <p class="heading__h4">Продавец</p>
+                        <p class="text">{{ $product->user->name }}</p>
+                    </div>
+                    <div class="heading__container">
+                        <p class="heading__h4">Номер телефона для связи</p>
+                        <p class="text">{{ $product->user->phone }}</p>
+                    </div>
+                    @endauth
                 </div>
             </div>
             <div class="heading__container">
@@ -51,7 +63,6 @@
     </section>
     @can('update', $product)
             <form method="GET" action="{{ route('products.edit', $product) }}" class="button__wrapper">
-                @csrf
                 <button class="button" type="submit">Редактировать объявление</button>
             </form>
     @endcan

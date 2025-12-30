@@ -2,16 +2,13 @@
 
 namespace App\Http\Controllers;
 
-use App\Http\Controllers\Controller;
-use App\Models\Category;
-use App\Models\City;
 use App\Models\Product;
-use App\Models\ProductImage;
+use App\Models\User;
 use App\Services\SortService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
-class AccountController
+class AccountController extends Controller
 {
     const PRODUCT_COUNT = 12;
 
@@ -20,8 +17,16 @@ class AccountController
      */
     public function show(Request $request, SortService $sortService)
     {
-        $product = SortService::sortProducts($request)->where('user_id', Auth::id())->paginate(self::PRODUCT_COUNT);
+        $product = SortService::sortProducts($request)
+            ->where('user_id', Auth::id())->paginate(self::PRODUCT_COUNT);
 
         return view('pages.account.show', compact('product'));
+    }
+
+    public function adminPanel()
+    {
+        $productCount = Product::all()->count();
+        $usersCount = User::all()->count();
+        return view('pages.account.admin-panel', compact('productCount', 'usersCount'));
     }
 }

@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Http\Filters\ProductFilter;
 use App\Http\Requests\ProductRequest;
 use App\Models\Category;
-use App\Models\City;
 use App\Models\Product;
 use App\Models\ProductImage;
 use App\Services\SortService;
@@ -15,7 +14,7 @@ use Illuminate\Support\Facades\Cache;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Storage;
 
-class ProductController
+class ProductController extends Controller
 {
     const PRODUCT_COUNT = 12;
 
@@ -29,9 +28,16 @@ class ProductController
                 'page' => $request->get('page', 1),
                 'filter' => $request->query(),
             ]));
-        $product = Cache::remember($cacheKey, now()->addSeconds(5), function () use ($request, $filter) {
+        $product = Cache::remember($cacheKey, now()->addMinutes(60), function () use ($request, $filter) {
             return SortService::sortProducts($request)->filter($filter)
                 ->with('images')->paginate(self::PRODUCT_COUNT);
+        });
+
+        $cartIds = array_keys(session()->get('cart', []));
+
+        $product->through(function ($item) use ($cartIds) {
+            $item->is_in_cart = in_array($item->id, $cartIds);
+            return $item;
         });
 
         return view('pages.products.index', compact('product'));
@@ -54,9 +60,11 @@ class ProductController
         $validatedProduct = $request->validated();
         $validatedProduct['user_id'] = Auth::id();
         $product = Product::create($validatedProduct);
+        $product->refresh();
         $this->insertImages($request, $product);
         $isSent = EmailSenderController::sendMail($product);
-        $message = $isSent ? 'Товар создан, проверьте вашу почту!' : 'Товар создан';
+        $message = $isSent ? 'Товар создан, проверьте вашу почту!' : 'Товар создан!';
+        Cache::flush();
 
         return redirect()->route('product_item.show', [
             'category' => $product->category,
@@ -79,7 +87,7 @@ class ProductController
     public function edit(Product $product)
     {
         if (!Gate::allows('update', $product)) {
-            return redirect()->back()->with('error', 'У вас нет доступа');
+            return redirect()->back()->with('error', 'У вас нет доступа!');
         };
         return view('pages.products.edit', compact('product'));
 
@@ -90,16 +98,19 @@ class ProductController
      */
     public function update(ProductRequest $request, Product $product)
     {
-        if (!Gate::allows('delete', $product)) {
-            return redirect()->back()->with('error', 'У вас нет доступа');
+        if (!Gate::allows('update', $product)) {
+            return redirect()->back()->with('error', 'У вас нет доступа!');
         };
         $validatedProduct = $request->validated();
         if ($request->has('delete_images')) {
             $imagesToDelete = ProductImage::whereIn('id', $request->delete_images)
                 ->where('product_id', $product->id)
                 ->get();
+
             foreach ($imagesToDelete as $image) {
-                Storage::disk('public')->delete("product/{$product->id}/{$image->product_image}");
+                $directory = "product/" . $product->created_at->format('Y/m') . "/{$product->id}/{$image->product_image}";
+                Storage::disk('public')
+                    ->delete($directory);
                 $image->delete();
             }
         }
@@ -107,11 +118,12 @@ class ProductController
         $this->insertImages($request, $product);
         $photoExist = $product->images()->exists() ? 'photo' : null;
         $product->update(['photo_exist' => $photoExist]);
+        Cache::flush();
 
         return redirect()->route('product_item.show', [
             'category' => $product->category,
             'product' => $product
-        ])->with('success', 'Объявление обновлено');
+        ])->with('success', 'Объявление обновлено!');
 
     }
 
@@ -122,12 +134,16 @@ class ProductController
     {
 
         if (!Gate::allows('delete', $product)) {
-            return redirect()->back()->with('error', 'У вас нет доступа');
+            return redirect()->back()->with('error', 'У вас нет доступа!');
         };
-        Storage::disk('public')->deleteDirectory("product/{$product->id}");
+        $directory = "product/" . $product->created_at->format('Y/m') . "/{$product->id}";
+        if (Storage::disk('public')->exists($directory)) {
+            Storage::disk('public')->deleteDirectory($directory);
+        }
         $product->delete();
+        Cache::flush();
 
-        return redirect()->route('home')->with('success', 'Объявление удалено');
+        return redirect()->route('home')->with('success', 'Объявление удалено!');
     }
 
     protected function insertImages($request, $product)
@@ -136,7 +152,8 @@ class ProductController
             $files = [];
             foreach ($request->file('product_image') as $file) {
                 $imageName = $file->getClientOriginalName();
-                $file->storeAs("product/{$product->id}", $imageName, 'public');
+                $directory = "product/" . $product->created_at->format('Y/m') . "/{$product->id}";
+                $file->storeAs($directory, $imageName, 'public');
                 $files[] = [
                     'product_image' => $imageName,
                     'product_id' => $product->id,
