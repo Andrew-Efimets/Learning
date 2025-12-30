@@ -18,6 +18,13 @@ class CategoryController extends Controller
         $product = SortService::sortProducts($request)
             ->where('category_id', $category->id)->paginate(self::PRODUCT_COUNT);
 
-        return view('pages.categories.show', compact('product','category'));
+        $cartIds = array_keys(session()->get('cart', []));
+
+        $product->through(function ($item) use ($cartIds) {
+            $item->is_in_cart = in_array($item->id, $cartIds);
+            return $item;
+        });
+
+        return view('pages.categories.show', compact('product','category', 'cartIds'));
     }
 }

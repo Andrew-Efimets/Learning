@@ -12,7 +12,15 @@ class SearchController extends Controller
     public function search(Request $request)
     {
         $product = SortService::sortSearchProducts($request)->paginate(self::PRODUCT_COUNT);
-        return view('pages.products.search', compact('product'));
+
+        $cartIds = array_keys(session()->get('cart', []));
+
+        $product->through(function ($item) use ($cartIds) {
+            $item->is_in_cart = in_array($item->id, $cartIds);
+            return $item;
+        });
+
+        return view('pages.products.search', compact('product', 'cartIds'));
 //        return response()->json(array_merge($product->toArray()));
 
     }

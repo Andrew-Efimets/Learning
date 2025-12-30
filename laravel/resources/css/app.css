@@ -870,23 +870,23 @@ ul, li {
 .orders__heading {
     display: flex;
     align-items: center;
-    margin: 20px;
+    margin: 10px;
     background-color: #effdf4;
     border-radius: 10px;
     cursor: pointer;
 }
 
 .cart-orders__header {
-    padding: 20px 0;
+    padding: 5px 0;
 }
 
 .orders__heading-text {
-    padding: 20px;
+    padding: 10px;
     font-weight: 600;
 }
 
 .cart-orders__wrapper {
-    margin: 20px;
+    margin: 10px;
     background-color: #d6eadd;
     border-radius: 10px;
 }
@@ -896,7 +896,7 @@ ul, li {
     column-gap: 40px;
     background-color: #effdf4;
     border-radius: 10px;
-    padding: 20px;
+    padding: 15px;
     margin-bottom: 10px;
 }
 
