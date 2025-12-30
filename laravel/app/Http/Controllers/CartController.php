@@ -10,10 +10,7 @@ class CartController extends Controller
     {
         $cartItems = session()->get('cart', []);
         $product = collect($cartItems);
-        $totalPrice = collect($product)->sum('price');
-        $orders = auth()->user()->orders()->latest()->get();
-        return view('pages.account.cart',
-            compact('product', 'totalPrice', 'orders'));
+        return view('pages.account.cart', compact('product'));
     }
 
     public function add($id)
@@ -34,22 +31,6 @@ class CartController extends Controller
         return response()->json([
             'message' => 'Товар добавлен!',
             'cart_count' => count($cart),
-            'total_price' => collect($cart)->sum('price'),
-        ]);
-    }
-
-    public function remove($id)
-    {
-        $cart = session()->get('cart', []);
-        if (isset($cart[$id])) {
-            unset($cart[$id]);
-            session()->put('cart', $cart);
-        }
-
-        return response()->json([
-            'message' => 'Товар удалён!',
-            'cart_count' => count($cart),
-            'total_price' => collect($cart)->sum('price'),
         ]);
     }
 
