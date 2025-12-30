@@ -33,6 +33,13 @@ class ProductController extends Controller
                 ->with('images')->paginate(self::PRODUCT_COUNT);
         });
 
+        $cartIds = array_keys(session()->get('cart', []));
+
+        $product->through(function ($item) use ($cartIds) {
+            $item->is_in_cart = in_array($item->id, $cartIds);
+            return $item;
+        });
+
         return view('pages.products.index', compact('product'));
 //        return response()->json(array_merge($product->toArray()));
     }
@@ -56,7 +63,7 @@ class ProductController extends Controller
         $product->refresh();
         $this->insertImages($request, $product);
         $isSent = EmailSenderController::sendMail($product);
-        $message = $isSent ? 'Товар создан, проверьте вашу почту!' : 'Товар создан';
+        $message = $isSent ? 'Товар создан, проверьте вашу почту!' : 'Товар создан!';
         Cache::flush();
 
         return redirect()->route('product_item.show', [
@@ -80,7 +87,7 @@ class ProductController extends Controller
     public function edit(Product $product)
     {
         if (!Gate::allows('update', $product)) {
-            return redirect()->back()->with('error', 'У вас нет доступа');
+            return redirect()->back()->with('error', 'У вас нет доступа!');
         };
         return view('pages.products.edit', compact('product'));
 
@@ -92,7 +99,7 @@ class ProductController extends Controller
     public function update(ProductRequest $request, Product $product)
     {
         if (!Gate::allows('update', $product)) {
-            return redirect()->back()->with('error', 'У вас нет доступа');
+            return redirect()->back()->with('error', 'У вас нет доступа!');
         };
         $validatedProduct = $request->validated();
         if ($request->has('delete_images')) {
@@ -116,7 +123,7 @@ class ProductController extends Controller
         return redirect()->route('product_item.show', [
             'category' => $product->category,
             'product' => $product
-        ])->with('success', 'Объявление обновлено');
+        ])->with('success', 'Объявление обновлено!');
 
     }
 
@@ -127,7 +134,7 @@ class ProductController extends Controller
     {
 
         if (!Gate::allows('delete', $product)) {
-            return redirect()->back()->with('error', 'У вас нет доступа');
+            return redirect()->back()->with('error', 'У вас нет доступа!');
         };
         $directory = "product/" . $product->created_at->format('Y/m') . "/{$product->id}";
         if (Storage::disk('public')->exists($directory)) {
@@ -136,7 +143,7 @@ class ProductController extends Controller
         $product->delete();
         Cache::flush();
 
-        return redirect()->route('home')->with('success', 'Объявление удалено');
+        return redirect()->route('home')->with('success', 'Объявление удалено!');
     }
 
     protected function insertImages($request, $product)

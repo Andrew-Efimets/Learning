@@ -58,7 +58,7 @@ class LoginController extends Controller
             event(new Registered($user));
 
             return redirect()->route('verification.notice')
-                ->with('success', 'Регистрация прошла успешно');
+                ->with('success', 'Регистрация прошла успешно!');
     }
 
     public function logout(Request $request): RedirectResponse

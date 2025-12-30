@@ -9,15 +9,15 @@
     </div>
     <section class="content__wrapper">
         <div class="payment__container">
-            <div class="heading__container">
+            <div class="payment__field">
                 <p class="heading">
                     Ваша итоговая сумма
                 </p>
             </div>
-            <div class="heading__container">
-                <p class="heading">
-                    {{ $totalPrice }}
-                </p>
+            <div class="payment__field">
+                <h3>
+                    {{ $totalPrice }} р.
+                </h3>
             </div>
             <div class="">
                 <form action="{{ route('credit-card') }}" method="post" class="payment__form" id="payment-form">
