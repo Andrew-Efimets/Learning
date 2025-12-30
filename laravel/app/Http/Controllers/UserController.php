@@ -16,6 +16,6 @@ class UserController extends Controller
     {
         Auth::user()->update($request->validated());
 
-        return back()->with('success', 'Профиль обновлен');
+        return back()->with('success', 'Профиль обновлен!');
     }
 }

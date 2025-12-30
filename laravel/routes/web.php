@@ -53,8 +53,10 @@ Route::post('/email/verification-notification', [LoginController::class, 'resend
     ->name('verification.send');
 Route::get('/cart', [CartController::class, 'index'])->name('cart.index')
     ->middleware(['auth', 'verified']);
-Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add');
-//    ->middleware(['auth', 'verified']);
+Route::post('/cart/add/{id}', [CartController::class, 'add'])->name('cart.add')
+    ->middleware(['auth', 'verified']);
+Route::delete('/cart/remove/{id}', [CartController::class, 'remove'])->name('cart.remove')
+    ->middleware(['auth', 'verified']);
 
 
 Route::prefix('/products')->group(function () {

@@ -34,9 +34,20 @@
                         <p class="date city">{{ $item->created_at->translatedFormat('d F, H:i') }}</p>
                     </div>
                 </div>
-                <button class="product__button add-to-cart" data-id="{{ $item->id }}">
-                    Оплатить на сайте
-                </button>
+                @if($item->user_id !== auth()->id())
+                    <button
+                        class="product__button {{ $item->is_in_cart ? 'in-cart' : 'add-to-cart' }}"
+                        data-id="{{ $item->id }}"
+                        {{ $item->is_in_cart ? 'disabled' : '' }}
+                        style="{{ $item->is_in_cart ? 'background-color: #5b6559;' : '' }}"
+                    >
+                        {{ $item->is_in_cart ? 'В корзине ✓' : 'Оплатить на сайте' }}
+                    </button>
+                @else
+                        <button class="product__button" disabled style="background-color: #5b6559">
+                            Ваше объявление
+                        </button>
+                @endif
             </div>
         @endforeach
     </div>
