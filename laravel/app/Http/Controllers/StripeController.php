@@ -27,7 +27,6 @@ class StripeController extends Controller
             $stripe = new StripeClient(config('services.stripe.secret_key'));
             $token = $request->input('stripeToken');
 
-
             $charge = $stripe->charges->create([
                 'amount' => $totalPrice * 100,
                 'currency' => 'byn',
