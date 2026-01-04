@@ -56,21 +56,16 @@
             <label class="field__heading">Текущие фотографии</label>
             <div class="field__current-photos">
                 @foreach($product->images as $image)
-                    <div class="field__current-photo">
-                        <img class="field__photo-item" alt=""
-                             src="{{ asset('storage/product/'
-                                . $product->created_at->format('Y/m')
-                                . '/' . $product->id . '/' . $image->product_image) }}">
-                        <div class="checkbox__wrapper">
-                            <input type="checkbox" name="delete_images[]" value="{{ $image->id }}"
-                                   id="photo_{{ $image->id }}">
-                            <label class="checkbox__wrapper-label" for="photo_{{ $image->id }}">
-                                Удалить
-                            </label>
-                        </div>
+                    <div class="preview__item" id="old-photo-container-{{ $image->id }}">
+                        <img class="preview__img" alt=""
+                             src="{{ asset('storage/product/' . $product->created_at->format('Y/m') . '/' . $product->id . '/' . $image->product_image) }}">
+                        <span class="preview__remove old-remove" data-id="{{ $image->id }}">&times;</span>
+                        <input type="checkbox" name="delete_images[]" value="{{ $image->id }}"
+                               id="delete_photo_{{ $image->id }}" style="display: none;">
                     </div>
                 @endforeach
             </div>
+            <div id="new-preview-container" class="preview__container"></div>
             <div class="button__wrapper">
                 <input class="button__input-photo" name="product_image[]" type="file" multiple="multiple"
                        id="input_photo">

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Order;
+use App\Models\Product;
 use Exception;
 use Illuminate\Http\Request;
 use Stripe\StripeClient;
@@ -62,7 +63,7 @@ class StripeController extends Controller
             return back()->with('error', 'Системная ошибка: ' . $e->getMessage());
 
         } finally {
-            $order = Order::create([
+            Order::create([
                 'user_id' => auth()->id(),
                 'total_price' => $totalPrice,
                 'order_number' => $orderNumber,
