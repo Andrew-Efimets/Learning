@@ -15,12 +15,18 @@ class AccountController extends Controller
     /**
      * Display a listing of the resource.
      */
-    public function show(Request $request, SortService $sortService)
+    public function show(Request $request)
     {
-        $product = SortService::sortProducts($request)
-            ->where('user_id', Auth::id())->paginate(self::PRODUCT_COUNT);
+        $productAll = SortService::sortProducts($request)
+            ->where('user_id', Auth::id())
+            ->with('images');
 
-        return view('pages.account.show', compact('product'));
+        $product = (clone $productAll)
+            ->where('status', 0)
+            ->paginate(self::PRODUCT_COUNT);
+        $productSold = (clone $productAll)->where('status', 2)->get();
+
+        return view('pages.account.show', compact('product', 'productSold'));
     }
 
     public function adminPanel()

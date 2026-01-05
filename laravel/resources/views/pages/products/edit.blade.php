@@ -58,7 +58,9 @@
                 @foreach($product->images as $image)
                     <div class="preview__item" id="old-photo-container-{{ $image->id }}">
                         <img class="preview__img" alt=""
-                             src="{{ asset('storage/product/' . $product->created_at->format('Y/m') . '/' . $product->id . '/' . $image->product_image) }}">
+                             src="{{ asset('storage/product/'
+                                . $product->created_at->format('Y/m')
+                                . '/' . $product->id . '/' . $image->product_image) }}">
                         <span class="preview__remove old-remove" data-id="{{ $image->id }}">&times;</span>
                         <input type="checkbox" name="delete_images[]" value="{{ $image->id }}"
                                id="delete_photo_{{ $image->id }}" style="display: none;">

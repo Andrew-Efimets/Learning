@@ -11,7 +11,10 @@ class SearchController extends Controller
 
     public function search(Request $request)
     {
-        $product = SortService::sortSearchProducts($request)->paginate(self::PRODUCT_COUNT);
+        $product = SortService::sortSearchProducts($request)
+            ->with('images')
+            ->where('status', 0)
+            ->paginate(self::PRODUCT_COUNT);
 
         $cartIds = array_keys(session()->get('cart', []));
 

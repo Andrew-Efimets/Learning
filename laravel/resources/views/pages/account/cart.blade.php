@@ -11,12 +11,16 @@
                 @foreach($product as $item)
                     <div class="product-cart__wrapper cart-item">
                         <div class="product-item">
+                            @if(!empty($item['images']))
                             <div class="product-cart">
                                 <img class="image-cart" src="{{ asset('storage/product/'
                                 . $item['created_at']->format('Y/m')
                                 . '/' . $item['id'] . '/' . $item['images']) }}"
                                      alt="Изображение">
                             </div>
+                            @else
+                                <div class="no__image-cart">Photo</div>
+                            @endif
                             <div class="product-cart">
                                 <h4>Название:</h4> {{ $item['name'] }}
                             </div>
@@ -60,10 +64,20 @@
                     <div class="cart-orders__wrapper" id="orders-content" style="display: none;">
                         @foreach($orders as $order)
                             <div class="order__wrapper">
-                                <div class="notification">Номер заказа: №{{ $order->order_number }}</div>
-                                <div class="notification">Дата
-                                    оплаты: {{ $order->created_at->translatedFormat('d F, H:i') }}</div>
-                                <div class="notification">Оплачено: {{ $order->total_price }} р.</div>
+                                <div class="order-item">
+                                    <div class="notification">Номер заказа: №{{ $order->order_number }}</div>
+                                    <div class="notification">Дата
+                                        оплаты: {{ $order->created_at->translatedFormat('d F, H:i') }}</div>
+                                    <div class="notification">Оплачено: {{ $order->total_price }} р.</div>
+                                </div>
+                                @foreach($order->products as $product)
+                                    <div class="order-item">
+                                        <div class="description">Товар: {{ $product->name }}</div>
+                                        <div class="description">Цена: {{ $product->price }}</div>
+                                        <div class="description">Продавец: {{ $product->user->name }}</div>
+                                        <div class="description">Телефон: {{ $product->user->phone }}</div>
+                                    </div>
+                                @endforeach
                             </div>
                         @endforeach
                     </div>

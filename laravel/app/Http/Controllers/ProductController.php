@@ -28,9 +28,12 @@ class ProductController extends Controller
                 'page' => $request->get('page', 1),
                 'filter' => $request->query(),
             ]));
-        $product = Cache::remember($cacheKey, now()->addMinutes(60), function () use ($request, $filter) {
-            return SortService::sortProducts($request)->filter($filter)
-                ->with('images')->paginate(self::PRODUCT_COUNT);
+        $product = Cache::remember($cacheKey, now()->addSecond(), function () use ($request, $filter) {
+            return SortService::sortProducts($request)
+                ->filter($filter)
+                ->with('images')
+                ->where('status', 0)
+                ->paginate(self::PRODUCT_COUNT);
         });
 
         $cartIds = array_keys(session()->get('cart', []));

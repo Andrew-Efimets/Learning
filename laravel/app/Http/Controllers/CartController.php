@@ -8,8 +8,22 @@ class CartController extends Controller
 {
     public function index()
     {
-        $cartItems = session()->get('cart', []);
-        $product = collect($cartItems);
+        $cart = session()->get('cart', []);
+        $cartIds = array_keys($cart);
+
+        $available = Product::whereIn('id', $cartIds)
+            ->where('status', 0)
+            ->pluck('id')
+            ->toArray();
+        $filteredCart = array_intersect_key($cart, array_flip($available));
+
+        if(count($filteredCart) !== count($cart)){
+            session()->put('cart', $filteredCart);
+            session()->flash('error', 'Некоторые товары из вашей корзины только что купили!');
+            $cart = $filteredCart;
+        }
+
+        $product = collect($cart);
         $totalPrice = collect($product)->sum('price');
         $orders = auth()->user()->orders()->latest()->get();
         return view('pages.account.cart',
@@ -21,12 +35,12 @@ class CartController extends Controller
         $product = Product::find($id);
         $cart = session()->get('cart', []);
         $cart[$id] = [
-            "id" => $product->id,
-            "name" => $product->name,
-            "quantity" => 1,
-            "price" => $product->price,
-            "created_at" => $product->created_at,
-            "images" => $product->images->first()?->product_image,
+            'id' => $product->id,
+            'name' => $product->name,
+            'quantity' => 1,
+            'price' => $product->price,
+            'created_at' => $product->created_at,
+            'images' => $product->images->first()?->product_image,
         ];
 
         session()->put('cart', $cart);

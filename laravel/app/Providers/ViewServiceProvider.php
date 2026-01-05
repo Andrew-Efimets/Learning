@@ -33,7 +33,10 @@ class ViewServiceProvider extends ServiceProvider
             $cities = Cache::remember('cities', now()->addDay(), function () {
                 return City::all();
             });
-            $cartCount = count(session()->get('cart', []));
+            $cartCount = 0;
+            if(request()->hasSession()){
+                $cartCount = count(session()->get('cart', []));
+            }
             $view->with(compact('categories', 'cities', 'cartCount'));
         });
     }
