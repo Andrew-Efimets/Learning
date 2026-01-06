@@ -19,13 +19,13 @@ class CartController extends Controller
 
         if(count($filteredCart) !== count($cart)){
             session()->put('cart', $filteredCart);
-            session()->flash('error', 'Некоторые товары из вашей корзины только что купили!');
+            session()->flash('error', 'Некоторые товары из корзины не доступны к покупке!');
             $cart = $filteredCart;
         }
 
         $product = collect($cart);
         $totalPrice = collect($product)->sum('price');
-        $orders = auth()->user()->orders()->latest()->get();
+        $orders = auth()->user()->orders()->where('status', 1)->latest()->get();
         return view('pages.account.cart',
             compact('product', 'totalPrice', 'orders'));
     }

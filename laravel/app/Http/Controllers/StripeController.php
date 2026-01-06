@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Order;
 use App\Models\Product;
+use App\Services\EmailSenderService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
@@ -15,7 +16,26 @@ class StripeController extends Controller
     public function index()
     {
         $cart = session()->get('cart', []);
+        if(empty($cart)) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Товар из вашей корзины только что купили!');
+        }
+
+        $cartIds = array_keys($cart);
         $totalPrice = collect($cart)->sum('price');
+
+        $active = Product::with('user')
+            ->whereIn('id', $cartIds)
+            ->where('status', 0)
+            ->get();
+
+        if(count($active) !== count($cart)) {
+            return redirect()->route('cart.index')
+                ->with('error', 'Товар из вашей корзины только что купили!');
+        }
+
+        Product::whereIn('id', $cartIds)->update(['status' => 1]);
+        Cache::flush();
         return view('pages.account.payment', compact('totalPrice'));
     }
 
@@ -23,7 +43,7 @@ class StripeController extends Controller
     {
         $cart = session()->get('cart', []);
         if(empty($cart)) {
-          return redirect()->route('pages.account.cart');
+          return redirect()->route('cart.index');
         }
 
         $cartIds = array_keys($cart);
@@ -32,15 +52,6 @@ class StripeController extends Controller
         $statusOrder = 0;
 
         try {
-            $active = Product::whereIn('id', $cartIds)->where('status', 0)->count();
-
-            if($active !== count($cart)) {
-                return redirect()->route('pages.account.cart')
-                    ->with('error', 'Товар из вашей корзины только что купили!');
-            }
-
-            Product::whereIn('id', $cartIds)->update(['status' => 1]);
-
             $stripe = new StripeClient(config('services.stripe.secret_key'));
             $token = $request->input('stripeToken');
 
@@ -52,10 +63,19 @@ class StripeController extends Controller
             ]);
 
             $statusOrder = 1;
+
+            $product = Product::with('user')
+                ->whereIn('id', $cartIds)
+                ->get();
+
             Product::whereIn('id', $cartIds)->update([
                 'status' => 2,
                 'order_number' => $orderNumber,
             ]);
+
+            foreach ($product as $item) {
+                EmailSenderService::sendBuyProductMail($item);
+            }
 
             session()->forget('cart');
             Cache::flush();

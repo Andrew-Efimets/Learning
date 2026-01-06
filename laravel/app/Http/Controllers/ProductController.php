@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Services\EmailSenderService;
 use App\Services\SortService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -65,7 +66,7 @@ class ProductController extends Controller
         $product = Product::create($validatedProduct);
         $product->refresh();
         $this->insertImages($request, $product);
-        $isSent = EmailSenderController::sendMail($product);
+        $isSent = EmailSenderService::sendNewProductMail($product);
         $message = $isSent ? 'Товар создан, проверьте вашу почту!' : 'Товар создан!';
         Cache::flush();
 
