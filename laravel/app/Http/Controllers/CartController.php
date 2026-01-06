@@ -25,7 +25,7 @@ class CartController extends Controller
 
         $product = collect($cart);
         $totalPrice = collect($product)->sum('price');
-        $orders = auth()->user()->orders()->latest()->get();
+        $orders = auth()->user()->orders()->where('status', 1)->latest()->get();
         return view('pages.account.cart',
             compact('product', 'totalPrice', 'orders'));
     }

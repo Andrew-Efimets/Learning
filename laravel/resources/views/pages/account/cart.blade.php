@@ -71,7 +71,7 @@
                                     <div class="notification">Оплачено: {{ $order->total_price }} р.</div>
                                 </div>
                                 @foreach($order->products as $product)
-                                    <div class="order-item">
+                                    <div class="order-item__data">
                                         <div class="description">Товар: {{ $product->name }}</div>
                                         <div class="description">Цена: {{ $product->price }}</div>
                                         <div class="description">Продавец: {{ $product->user->name }}</div>

@@ -48,4 +48,9 @@
             </div>
         </div>
     </section>
+    <div class="timer__wrapper" id="timer-data">
+        <p class="timer__notification">Для оплаты у вас осталось</p>
+        <p class="timer" id="timer">10:00</p>
+        <p>мин</p>
+    </div>
 @endsection
