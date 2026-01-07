@@ -7,6 +7,7 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
+use App\Services\EmailSenderService;
 use App\Services\SortService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -28,9 +29,12 @@ class ProductController extends Controller
                 'page' => $request->get('page', 1),
                 'filter' => $request->query(),
             ]));
-        $product = Cache::remember($cacheKey, now()->addMinutes(60), function () use ($request, $filter) {
-            return SortService::sortProducts($request)->filter($filter)
-                ->with('images')->paginate(self::PRODUCT_COUNT);
+        $product = Cache::remember($cacheKey, now()->addSecond(), function () use ($request, $filter) {
+            return SortService::sortProducts($request)
+                ->filter($filter)
+                ->with('images')
+                ->where('status', 0)
+                ->paginate(self::PRODUCT_COUNT);
         });
 
         $cartIds = array_keys(session()->get('cart', []));
@@ -62,7 +66,7 @@ class ProductController extends Controller
         $product = Product::create($validatedProduct);
         $product->refresh();
         $this->insertImages($request, $product);
-        $isSent = EmailSenderController::sendMail($product);
+        $isSent = EmailSenderService::sendNewProductMail($product);
         $message = $isSent ? 'Товар создан, проверьте вашу почту!' : 'Товар создан!';
         Cache::flush();
 

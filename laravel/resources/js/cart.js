@@ -19,6 +19,11 @@ document.addEventListener('click', async function(e) {
             if (response.ok) {
                 const data = await response.json();
 
+                const cartCountEl = document.getElementById('cart-count');
+                if (cartCountEl) {
+                    cartCountEl.textContent = data.cart_count;
+                }
+
                 const totalEl = document.querySelector('.total-price');
                 if (totalEl) {
                     totalEl.textContent = `Итого: ${data.total_price} р.`;
@@ -61,6 +66,11 @@ document.addEventListener('click', async function(e) {
                 const data = await response.json();
 
                 cartItem.remove();
+
+                const cartCountEl = document.getElementById('cart-count');
+                if (cartCountEl) {
+                    cartCountEl.textContent = data.cart_count;
+                }
 
                 const totalEl = document.querySelector('.total-price');
                 if (totalEl) {

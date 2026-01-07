@@ -9,7 +9,7 @@ use Illuminate\Mail\Mailables\Content;
 use Illuminate\Mail\Mailables\Envelope;
 use Illuminate\Queue\SerializesModels;
 
-class ProductsMail extends Mailable implements ShouldQueue
+class BuyMail extends Mailable implements ShouldQueue
 {
     use Queueable, SerializesModels;
 
@@ -29,7 +29,7 @@ class ProductsMail extends Mailable implements ShouldQueue
     public function envelope(): Envelope
     {
         return new Envelope(
-            subject: 'Подача объявления',
+            subject: 'Ваш товар купили',
         );
     }
 
@@ -39,7 +39,7 @@ class ProductsMail extends Mailable implements ShouldQueue
     public function content(): Content
     {
         return new Content(
-            view: 'mail.products',
+            view: 'mail.buy',
         );
     }
 

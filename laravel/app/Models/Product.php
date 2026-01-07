@@ -47,6 +47,11 @@ class Product extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function order(): BelongsTo
+    {
+        return $this->belongsTo(Order::class, 'order_number', 'order_number');
+    }
+
     public function getRouteKeyName(): string
     {
         return 'slug';

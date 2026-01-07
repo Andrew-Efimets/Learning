@@ -48,4 +48,9 @@
             </div>
         </div>
     </section>
+    <div class="timer__wrapper" id="timer-data" data-url="{{ route('cart.index') }}">
+        <p class="timer__notification">Для завершения оплаты у вас осталось</p>
+        <p class="timer" id="timer">05:00</p>
+        <p>мин</p>
+    </div>
 @endsection

@@ -1,12 +1,9 @@
 initMap();
 
 async function initMap() {
-    // Промис `ymaps3.ready` будет зарезолвлен, когда загрузятся все компоненты основного модуля API
     await ymaps3.ready;
 
-    // Импортируем YMap, YMapDefaultSchemeLayer и другие компоненты
     const { YMap, YMapDefaultSchemeLayer, YMapMarker, YMapDefaultFeaturesLayer} = ymaps3;
-    // const { YMapDefaultMarker } = await ymaps3.import('@yandex/ymaps3-default-ui-theme');
 
     const mapElement = document.getElementById('map');
     const markerUrl = mapElement.dataset.markerUrl;
@@ -22,27 +19,21 @@ async function initMap() {
     }
 
     const map = new YMap(
-        // Передаём ссылку на HTMLElement контейнера
         mapElement,
 
-        // Передаём параметры инициализации карты
         {
             location: {
-                // Координаты центра карты (будут обновлены после геокодирования)
                 center: [27.5667, 53.9],
-                // Уровень масштабирования
                 zoom: 11
             }
         }
     );
 
-    // Добавляем слой для отображения схематической карты
     map.addChild(new YMapDefaultSchemeLayer());
     map.addChild(new YMapDefaultFeaturesLayer());
 
     if (city) {
         try {
-            // Выполняем геокодирование, чтобы получить координаты по адресу
             const searchResult = await ymaps3.search({ text: city });
 
             if (searchResult.length > 0) {
@@ -51,21 +42,18 @@ async function initMap() {
                 console.log(coords)
 
                 const customMarkerContent = document.createElement('img');
-                customMarkerContent.src = markerUrl; // Устанавливаем URL из data-атрибута
+                customMarkerContent.src = markerUrl;
                 customMarkerContent.alt = 'Marker';
                 customMarkerContent.style.width = '32px';
                 customMarkerContent.style.height = '32px';
 
-                // Создаём YMapMarker с кастомным содержимым
                 const marker = new YMapMarker(
-                    { coordinates: coords }, // Обязательный параметр - координаты
-                    customMarkerContent // Наш кастомный DOM-элемент
+                    { coordinates: coords },
+                    customMarkerContent
                 );
 
-                // Добавляем маркер на карту
                 map.addChild(marker);
 
-                // Центрируем карту на найденных координатах
                 map.setLocation({
                     center: coords,
                     zoom: 11

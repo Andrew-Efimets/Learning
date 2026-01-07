@@ -15,7 +15,7 @@
                 @auth
                     <li class="header__logo-wrapper">
                         <a href="{{ route('personal.data') }}">
-                        <img src="{{ asset('storage/images/account.png') }}" alt="аккаунт" class="header__account">
+                            <img src="{{ asset('storage/images/account.png') }}" alt="аккаунт" class="header__account">
                         </a>
                     </li>
                     <li class="header__menu-item">
@@ -33,7 +33,10 @@
                             <img src="{{ asset('storage/images/cart.png') }}" alt="корзина" class="header__cart">
                         </li>
                         <li class="header__menu-item">
-                            <a class="header__menu-link" href="{{ route('cart.index') }}">Корзина</a>
+                            <a class="header__menu-link cart__title" href="{{ route('cart.index') }}">
+                                Корзина
+                            </a>
+                            <span id="cart-count" class="cart__count">{{ $cartCount}}</span>
                         </li>
                     @endif
                     <li class="header__menu-item">

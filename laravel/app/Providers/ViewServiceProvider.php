@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Models\Cart;
 use App\Models\Category;
 use App\Models\City;
 use Illuminate\Support\Facades\Cache;
@@ -32,7 +33,11 @@ class ViewServiceProvider extends ServiceProvider
             $cities = Cache::remember('cities', now()->addDay(), function () {
                 return City::all();
             });
-            $view->with(compact('categories', 'cities'));
+            $cartCount = 0;
+            if(request()->hasSession()){
+                $cartCount = count(session()->get('cart', []));
+            }
+            $view->with(compact('categories', 'cities', 'cartCount'));
         });
     }
 }

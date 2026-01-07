@@ -49,6 +49,8 @@
                     Выберите фотографии
                 </label>
             </div>
+            <div class="notification">до 10 фотографий</div>
+            <div id="new-preview-container" class="preview__container"></div>
             <div class="button__wrapper">
                 <button class="button" type="submit">Подать объявление</button>
             </div>

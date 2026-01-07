@@ -16,7 +16,10 @@ class CategoryController extends Controller
     public function show(Request $request, Category $category)
     {
         $product = SortService::sortProducts($request)
-            ->where('category_id', $category->id)->paginate(self::PRODUCT_COUNT);
+            ->with('images')
+            ->where('category_id', $category->id)
+            ->where('status', 0)
+            ->paginate(self::PRODUCT_COUNT);
 
         $cartIds = array_keys(session()->get('cart', []));
 

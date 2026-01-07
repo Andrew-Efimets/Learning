@@ -2,8 +2,6 @@
 
 namespace App\Http\Filters;
 
-use Illuminate\Http\Request;
-
 class ProductFilter extends QueryFilter
 {
     public function price_from($price_from)
