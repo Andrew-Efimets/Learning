@@ -367,7 +367,7 @@ ul, li {
 .search__field:-webkit-autofill:focus,
 .field:-webkit-autofill,
 .field:-webkit-autofill:hover,
-.field:-webkit-autofill:focus{
+.field:-webkit-autofill:focus {
     box-shadow: 0 0 0 1000px #eefaf3 inset !important;
 }
 
@@ -922,6 +922,11 @@ ul, li {
     height: 50px;
 }
 
+.product-cart__link {
+    text-decoration: none;
+    color: #000;
+}
+
 .orders__container {
     margin-top: auto;
     padding-top: 40px;
@@ -962,7 +967,7 @@ ul, li {
     margin-bottom: 10px;
 }
 
-.order-item__data{
+.order-item__data {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     padding: 5px;
@@ -1020,4 +1025,42 @@ ul, li {
     color: darkgreen;
     display: flex;
     column-gap: 20px;
+}
+
+.select2-container--default .select2-selection--single {
+    background-color: transparent !important;
+    border: none !important;
+    height: 100% !important;
+    display: flex !important;
+    align-items: center;
+    width: 100% !important;
+    padding-bottom: 20px !important;
+}
+
+.select2-container .select2-selection--single .select2-selection__rendered {
+    border-radius: 10px;
+    font-size: 16px;
+    padding: 5px;
+    width: 100%;
+    border: #a1a09a 2px solid;
+    background-color: #FFF;
+    font-family: Arial, sans-serif;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__clear {
+    display: none !important;
+}
+
+.select2-container--default .select2-selection--single .select2-selection__arrow {
+    height: 26px;
+    position: absolute;
+    top: 12% !important;
+    right: 1px;
+    width: 20px;
+}
+
+.select2-dropdown {
+    all: unset !important;
+    width: 100%;
+    z-index: 9999;
 }

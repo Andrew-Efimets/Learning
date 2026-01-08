@@ -8,6 +8,7 @@ use App\Services\EmailSenderService;
 use Exception;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Cache;
+use Illuminate\Support\Facades\DB;
 use Stripe\StripeClient;
 use Stripe\Exception\CardException;
 
@@ -49,33 +50,32 @@ class StripeController extends Controller
         $cartIds = array_keys($cart);
         $totalPrice = collect($cart)->sum('price');
         $orderNumber = now()->format('YmdHis') . auth()->id();
-        $statusOrder = 0;
 
         try {
             $stripe = new StripeClient(config('services.stripe.secret_key'));
             $token = $request->input('stripeToken');
 
-            $charge = $stripe->charges->create([
+            $stripe->charges->create([
                 'amount' => $totalPrice * 100,
                 'currency' => 'byn',
                 'source' => $token,
                 'description' => "Оплата заказа № " . $orderNumber,
             ]);
 
-            $statusOrder = 1;
 
-            $product = Product::with('user')
-                ->whereIn('id', $cartIds)
-                ->get();
+            DB::transaction(function () use ($cartIds, $orderNumber, $totalPrice) {
+                Product::whereIn('id', $cartIds)->update([
+                    'status' => 2,
+                    'order_number' => $orderNumber,
+                ]);
 
-            Product::whereIn('id', $cartIds)->update([
-                'status' => 2,
-                'order_number' => $orderNumber,
-            ]);
-
-            foreach ($product as $item) {
-                EmailSenderService::sendBuyProductMail($item);
-            }
+                Order::create([
+                    'user_id' => auth()->id(),
+                    'total_price' => $totalPrice,
+                    'order_number' => $orderNumber,
+                    'status' => 1,
+                ]);
+            });
 
             session()->forget('cart');
             Cache::flush();
@@ -83,9 +83,6 @@ class StripeController extends Controller
             return redirect()->route('cart.index')->with('success', 'Оплата прошла успешно!');
 
         } catch (CardException $e) {
-
-            Product::whereIn('id', $cartIds)->update(['status' => 0]);
-            $statusOrder = 0;
 
             $messages = [
                 'insufficient_funds' => 'На карте недостаточно средств!',
@@ -103,18 +100,8 @@ class StripeController extends Controller
 
         } catch (Exception $e) {
 
-            Product::whereIn('id', $cartIds)->update(['status' => 0]);
-            $statusOrder = 0;
-
             return back()->with('error', 'Системная ошибка: ' . $e->getMessage());
 
-        } finally {
-            Order::create([
-                'user_id' => auth()->id(),
-                'total_price' => $totalPrice,
-                'order_number' => $orderNumber,
-                'status' => $statusOrder,
-            ]);
         }
     }
 }

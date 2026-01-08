@@ -7,7 +7,6 @@ use App\Http\Requests\ProductRequest;
 use App\Models\Category;
 use App\Models\Product;
 use App\Models\ProductImage;
-use App\Services\EmailSenderService;
 use App\Services\SortService;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -64,16 +63,13 @@ class ProductController extends Controller
         $validatedProduct = $request->validated();
         $validatedProduct['user_id'] = Auth::id();
         $product = Product::create($validatedProduct);
-        $product->refresh();
         $this->insertImages($request, $product);
-        $isSent = EmailSenderService::sendNewProductMail($product);
-        $message = $isSent ? 'Товар создан, проверьте вашу почту!' : 'Товар создан!';
         Cache::flush();
 
         return redirect()->route('product_item.show', [
             'category' => $product->category,
             'product' => $product
-        ])->with('success', $message);
+        ])->with('success', 'Товар создан, проверьте вашу почту!');
 
     }
 

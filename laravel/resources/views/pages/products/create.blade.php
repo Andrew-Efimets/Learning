@@ -15,7 +15,8 @@
             </div>
             <label class="field__heading" for="city_id">Город</label>
             <div class="field__wrapper">
-                <select class="field" name="city_id" type="text" id="city_id">
+                <select class="field select2" name="city_id" id="city_id">
+                    <option value=""></option>
                     @foreach($cities as $city)
                         <option value="{{$city->id}}">{{$city->city}}</option>
                     @endforeach

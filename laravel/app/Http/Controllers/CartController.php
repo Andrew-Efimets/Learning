@@ -40,6 +40,8 @@ class CartController extends Controller
             'quantity' => 1,
             'price' => $product->price,
             'created_at' => $product->created_at,
+            'product_slug' => $product->slug,
+            'category_slug' => $product->category->slug,
             'images' => $product->images->first()?->product_image,
         ];
 
