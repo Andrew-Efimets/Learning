@@ -845,12 +845,14 @@ ul, li {
     margin-top: 80px;
     width: 100%;
     padding: 0 80px;
+    background-color: #cce8d5;
+    border-radius: 10px;
 }
 
 .admin__heading-wrapper {
     width: fit-content;
-    margin-bottom: 60px;
-    background-color: #cce8d5;
+    margin: 40px 0;
+    background-color: #e2f5e7;
     border-radius: 10px;
     padding: 10px;
 }
@@ -870,7 +872,7 @@ ul, li {
 
 .admin__item-wrapper {
     width: 50%;
-    background-color: #cce8d5;
+    background-color: #e2f5e7;
     border-radius: 10px;
     padding: 10px;
 }

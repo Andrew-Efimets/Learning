@@ -13,7 +13,7 @@
                 Товары
             </p>
             <div class="admin__item-wrapper">
-                <p class="admin__item-description">
+                <p class="admin__item-description orders__heading-text">
                     Количество товаров на сайте: {{ $productCount }}
                 </p>
             </div>
@@ -23,8 +23,28 @@
                 Пользователи
             </p>
             <div class="admin__item-wrapper">
-                <p class="admin__item-description">
+                <p class="admin__item-description orders__heading-text">
                     Количество пользователей на сайте: {{ $usersCount }}
+                </p>
+            </div>
+        </div>
+        <div class="admin__data-wrapper">
+            <p class="heading">
+                Заказы
+            </p>
+            <div class="admin__item-wrapper">
+                <p class="admin__item-description orders__heading-text">
+                    Количество заказов на сайте: {{ $ordersCount }}
+                </p>
+            </div>
+        </div>
+        <div class="admin__data-wrapper">
+            <p class="heading">
+                Итого оплачено
+            </p>
+            <div class="admin__item-wrapper">
+                <p class="admin__item-description orders__heading-text">
+                    Сумма оплаты заказов на сайте: {{ $sumTotalPrice }} р.
                 </p>
             </div>
         </div>
