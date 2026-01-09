@@ -38,6 +38,7 @@
         'resources/js/create-product.js',
         'resources/js/timer.js',
         'resources/js/select-city.js',
+        'resources/js/slider.js',
         ])
 
 
