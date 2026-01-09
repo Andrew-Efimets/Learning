@@ -22,6 +22,7 @@ RUN set -eux; \
             ca-certificates \
             git \
             curl \
+            default-mysql-client \
             libmemcached-dev \
             libz-dev \
             libpq-dev \
