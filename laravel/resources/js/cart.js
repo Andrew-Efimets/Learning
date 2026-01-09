@@ -91,7 +91,7 @@ document.addEventListener('click', async function(e) {
 document.addEventListener('DOMContentLoaded', function() {
     const header = document.getElementById('toggle-orders');
     const content = document.getElementById('orders-content');
-    const arrow = header.querySelector('.arrow');
+    const arrow = header?.querySelector('.arrow');
 
     if (header) {
         header.addEventListener('click', function() {

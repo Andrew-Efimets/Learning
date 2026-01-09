@@ -15,7 +15,7 @@
             </div>
             <label class="field__heading" for="city_id">Город</label>
             <div class="field__wrapper">
-                <select class="field" name="city_id" type="text" id="city_id">
+                <select class="field" name="city_id" id="city_id">
                     @foreach($cities as $city)
                         <option value="{{$city->id}}">{{$city->city}}</option>
                     @endforeach
@@ -44,7 +44,8 @@
             <span class="field__error-message">Добавьте описание товара</span>
             @enderror
             <div class="button__wrapper">
-            <input class="button__input-photo" name="product_image[]" type="file" multiple="multiple" id="input_photo">
+                <input class="button__input-photo" name="product_image[]" type="file" multiple="multiple"
+                       id="input_photo">
                 <label for="input_photo" class="button">
                     Выберите фотографии
                 </label>

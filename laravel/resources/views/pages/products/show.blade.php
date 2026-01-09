@@ -49,6 +49,20 @@
                         <p class="heading__h4">Номер телефона для связи</p>
                         <p class="text">{{ $product->user->phone }}</p>
                     </div>
+                        @if($product->user_id !== auth()->id())
+                            <button
+                                class="product__button {{ $product->is_in_cart ? 'in-cart' : 'add-to-cart' }}"
+                                data-id="{{ $product->id }}"
+                                {{ $product->is_in_cart ? 'disabled' : '' }}
+                                style="{{ $product->is_in_cart ? 'background-color: #5b6559;' : '' }}"
+                            >
+                                {{ $product->is_in_cart ? 'В корзине ✓' : 'Оплатить на сайте' }}
+                            </button>
+                        @else
+                            <button class="product__button" disabled style="background-color: #5b6559">
+                                Ваше объявление
+                            </button>
+                        @endif
                     @endauth
                 </div>
             </div>

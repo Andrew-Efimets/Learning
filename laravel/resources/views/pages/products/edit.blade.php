@@ -21,7 +21,7 @@
             </div>
             <label class="field__heading" for="city_id">Город</label>
             <div class="field__wrapper">
-                <select class="field" name="city_id" type="text" id="city_id">
+                <select class="field" name="city_id" id="city_id">
                     @foreach($cities as $city)
                         <option value="{{ $city->id }}" @selected($city == $product->city)>
                             {{ $city->city }}

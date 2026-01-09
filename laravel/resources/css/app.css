@@ -367,7 +367,7 @@ ul, li {
 .search__field:-webkit-autofill:focus,
 .field:-webkit-autofill,
 .field:-webkit-autofill:hover,
-.field:-webkit-autofill:focus{
+.field:-webkit-autofill:focus {
     box-shadow: 0 0 0 1000px #eefaf3 inset !important;
 }
 
@@ -720,6 +720,7 @@ ul, li {
 
 .right-side__container {
     padding: 0 40px;
+    width: 100%;
 }
 
 /* ____________slider_____________ */
@@ -844,12 +845,14 @@ ul, li {
     margin-top: 80px;
     width: 100%;
     padding: 0 80px;
+    background-color: #cce8d5;
+    border-radius: 10px;
 }
 
 .admin__heading-wrapper {
     width: fit-content;
-    margin-bottom: 60px;
-    background-color: #cce8d5;
+    margin: 40px 0;
+    background-color: #e2f5e7;
     border-radius: 10px;
     padding: 10px;
 }
@@ -869,7 +872,7 @@ ul, li {
 
 .admin__item-wrapper {
     width: 50%;
-    background-color: #cce8d5;
+    background-color: #e2f5e7;
     border-radius: 10px;
     padding: 10px;
 }
@@ -919,6 +922,11 @@ ul, li {
     height: 50px;
 }
 
+.product-cart__link {
+    text-decoration: none;
+    color: #000;
+}
+
 .orders__container {
     margin-top: auto;
     padding-top: 40px;
@@ -959,7 +967,7 @@ ul, li {
     margin-bottom: 10px;
 }
 
-.order-item__data{
+.order-item__data {
     display: grid;
     grid-template-columns: repeat(4, minmax(0, 1fr));
     padding: 5px;
@@ -1017,4 +1025,54 @@ ul, li {
     color: darkgreen;
     display: flex;
     column-gap: 20px;
+}
+
+/*-----------select-city------------------*/
+
+.choices {
+    font-family: Arial, sans-serif;
+}
+
+.choices__inner {
+    border-radius: 10px !important;
+    width: 100% !important;
+    border: #a1a09a 2px solid !important;
+    font-size: 16px !important;
+}
+
+.choices.is-focused .choices__inner {
+    border: darkgreen 2px solid !important;
+    box-shadow: 0 0 0 3px #eefaf3;
+    background-color: #eefaf3;
+    font-size: 16px !important;
+}
+
+.choices.is-open .choices__inner {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+
+.choices__inner:focus {
+    border: darkgreen 2px solid !important;
+    background-color: #eefaf3 !important;
+    outline: none !important;
+}
+
+.choices__list--dropdown {
+    background-color: #eefaf3 !important;
+}
+
+.choices__list--dropdown .choices__item {
+    font-size: 16px !important;
+    font-family: Arial, sans-serif !important;
+}
+
+.choices__item--selectable {
+}
+
+.choices__item--choice.is-highlighted {
+    background-color: #007bff !important;
+    color: #ffffff;
+    font-size: 16px !important;
 }

@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Mail\BuyMail;
 use App\Mail\ProductsMail;
-use App\Models\Order;
 use App\Models\Product;
 use Illuminate\Support\Facades\Mail;
 

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Order;
 use App\Models\Product;
 use App\Models\User;
 use App\Services\SortService;
@@ -33,6 +34,9 @@ class AccountController extends Controller
     {
         $productCount = Product::all()->count();
         $usersCount = User::all()->count();
-        return view('pages.account.admin-panel', compact('productCount', 'usersCount'));
+        $ordersCount = Order::all()->count();
+        $sumTotalPrice = Order::all()->sum('total_price');
+        return view('pages.account.admin-panel',
+            compact('productCount', 'usersCount', 'ordersCount', 'sumTotalPrice'));
     }
 }

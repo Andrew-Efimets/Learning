@@ -32,10 +32,16 @@
 <div class="content">
     @yield('content')
 </div>
+
 @vite(['resources/js/app.js',
         'resources/js/cart.js',
         'resources/js/create-product.js',
-        'resources/js/timer.js'])
+        'resources/js/timer.js',
+        'resources/js/select-city.js',
+        'resources/js/slider.js',
+        ])
+
+
 <footer class="footer">
     @include('partials.products.footer')
 </footer>

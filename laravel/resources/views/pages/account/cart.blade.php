@@ -10,6 +10,8 @@
             @if($product->isNotEmpty())
                 @foreach($product as $item)
                     <div class="product-cart__wrapper cart-item">
+                        <a class="product-cart__link"
+                           href="{{ route('product_item.show', [$item['category_slug'], $item['product_slug']]) }}">
                         <div class="product-item">
                             @if(!empty($item['images']))
                             <div class="product-cart">
@@ -28,6 +30,7 @@
                                 <h4>Цена:</h4> {{ $item['price'] }} р.
                             </div>
                         </div>
+                        </a>
                         <div>
                             <button class="product__button remove-from-cart" data-id="{{ $item['id'] }}">
                                 Удалить
