@@ -13,7 +13,7 @@ Artisan::command('inspire', function () {
 
 Schedule::call(function () {
     $expiredProducts = Product::where('status', 1)
-        ->where('updated_at', '<', now()->subMinutes(10))
+        ->where('updated_at', '<', now()->subMinutes(6))
         ->get();
 
     if ($expiredProducts->isNotEmpty()) {

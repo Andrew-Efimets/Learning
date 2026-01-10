@@ -88,21 +88,26 @@ document.addEventListener('click', async function(e) {
     }
 });
 
-document.addEventListener('DOMContentLoaded', function() {
-    const header = document.getElementById('toggle-orders');
-    const content = document.getElementById('orders-content');
-    const arrow = header?.querySelector('.arrow');
+document.addEventListener('DOMContentLoaded', function () {
+    const triggers = document.querySelectorAll('.toggle-trigger');
 
-    if (header) {
-        header.addEventListener('click', function() {
+    triggers.forEach(trigger => {
+        trigger.addEventListener('click', function () {
+            // Находим родительский контейнер аккордеона
+            const parent = this.closest('.accordion-item');
+            // Находим блок контента внутри этого контейнера
+            const content = parent.querySelector('.orders-content');
+            // Находим стрелку
+            const arrow = this.querySelector('.arrow');
 
-            if (content.style.display === "none") {
-                content.style.display = "block";
-                arrow.textContent = "▲";
+            // Переключаем видимость
+            if (content.style.display === 'none') {
+                content.style.display = 'block';
+                arrow.style.transform = 'rotate(180deg)';
             } else {
-                content.style.display = "none";
-                arrow.textContent = "▼";
+                content.style.display = 'none';
+                arrow.style.transform = 'rotate(0deg)';
             }
         });
-    }
+    });
 });

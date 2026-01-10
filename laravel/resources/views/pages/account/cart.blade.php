@@ -54,38 +54,4 @@
             @endif
         </section>
     </div>
-    @if($orders->isNotEmpty())
-        <div class="orders__container">
-            <div class="cart-orders__wrapper" id="toggle-orders">
-                <div class="cart-orders__header">
-                    <div class="orders__heading">
-                        <p class="orders__heading-text">
-                            Оплаченные покупки
-                        </p>
-                        <span class="arrow">▼</span>
-                    </div>
-                    <div class="cart-orders__wrapper" id="orders-content" style="display: none;">
-                        @foreach($orders as $order)
-                            <div class="order__wrapper">
-                                <div class="order-item">
-                                    <div class="notification">Номер заказа: №{{ $order->order_number }}</div>
-                                    <div class="notification">Дата
-                                        оплаты: {{ $order->created_at->translatedFormat('d F, H:i') }}</div>
-                                    <div class="notification">Оплачено: {{ $order->total_price }} р.</div>
-                                </div>
-                                @foreach($order->products as $product)
-                                    <div class="order-item__data">
-                                        <div class="description">Товар: {{ $product->name }}</div>
-                                        <div class="description">Цена: {{ $product->price }}</div>
-                                        <div class="description">Продавец: {{ $product->user->name }}</div>
-                                        <div class="description">Телефон: {{ $product->user->phone }}</div>
-                                    </div>
-                                @endforeach
-                            </div>
-                        @endforeach
-                    </div>
-                </div>
-            </div>
-        </div>
-    @endif
 @endsection

@@ -928,22 +928,23 @@ ul, li {
 }
 
 .orders__container {
-    margin-top: auto;
-    padding-top: 40px;
+    margin-top: 30px;
+    padding: 10px 0;
     width: 100%;
+    background-color: #d6eadd;
+    border-radius: 10px;
 }
 
 .orders__heading {
     display: flex;
     align-items: center;
-    margin: 10px;
     background-color: #effdf4;
     border-radius: 10px;
     cursor: pointer;
 }
 
 .cart-orders__header {
-    padding: 5px 0;
+    margin: 0 15px;
 }
 
 .orders__heading-text {
@@ -952,8 +953,6 @@ ul, li {
 }
 
 .cart-orders__wrapper {
-    margin: 10px;
-    background-color: #d6eadd;
     border-radius: 10px;
 }
 
@@ -964,7 +963,7 @@ ul, li {
     background-color: #effdf4;
     border-radius: 10px;
     padding: 15px;
-    margin-bottom: 10px;
+    margin: 15px;
 }
 
 .order-item__data {

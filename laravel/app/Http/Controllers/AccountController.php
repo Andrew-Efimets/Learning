@@ -27,7 +27,9 @@ class AccountController extends Controller
             ->paginate(self::PRODUCT_COUNT);
         $productSold = (clone $productAll)->where('status', 2)->get();
 
-        return view('pages.account.show', compact('product', 'productSold'));
+        $orders = auth()->user()->orders()->where('status', 1)->latest()->get();
+
+        return view('pages.account.show', compact('product', 'productSold', 'orders'));
     }
 
     public function adminPanel()
